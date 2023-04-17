@@ -85,7 +85,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Radius.circular(30),
                         ),
                       ),
-                      hintText: ' John',
+                      hintText: ' Johnny',
                       hintStyle: TextStyle(
                         color: Colors.grey.shade400,
                         fontSize: 15,
@@ -133,7 +133,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           Radius.circular(30),
                         ),
                       ),
-                      hintText: ' John@gmail.com',
+                      hintText: ' Johnny@gmail.com',
                       hintStyle: TextStyle(
                         color: Colors.grey.shade400,
                         fontSize: 15,
@@ -187,7 +187,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         onPressed: () async {
                           DateTime? pickedDate = await showDatePicker(
                             context: context,
-                            initialDate: DateTime.now(),
+                            initialDate: DateTime(2000),
                             firstDate: DateTime(2000),
                             lastDate: DateTime(2101),
                           );
