@@ -10,7 +10,13 @@ import '../../../constants.dart';
 
 
 class ExplorerMapPage extends StatefulWidget {
-  const ExplorerMapPage({Key? key}) : super(key: key);
+    String firstLocation;
+
+  String secondLocation;
+
+  ExplorerMapPage(
+      {Key? key, required this.firstLocation, required this.secondLocation})
+      : super(key: key);
 
   @override
   State<ExplorerMapPage> createState() => ExplorerMapPageState();
@@ -60,8 +66,8 @@ final Completer<GoogleMapController> _controller = Completer();
               MaterialPageRoute(
                 builder: (BuildContext context) {
                   return ExplorerPage(
-                    firstLocation: '9 Raffles Place #25-00',
-                    secondLocation: 'Plaza Singapura',
+                    firstLocation: widget.firstLocation,
+                    secondLocation: widget.secondLocation,
                   );
                 },
               ),

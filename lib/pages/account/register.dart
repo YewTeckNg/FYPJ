@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
@@ -231,14 +232,14 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(
                   height: 10,
                 ),
-                 Padding(
+                Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
-                    decoration:  InputDecoration(
+                    decoration: InputDecoration(
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(30),
@@ -255,7 +256,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       if (value!.trim().isEmpty) {
                         return 'Mobile Number is required';
                       }
-                      if (value.length < 8) {
+                      if (value.length != 8) {
                         return 'Invalid Mobile Number';
                       }
                       return null;
@@ -276,7 +277,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
@@ -299,7 +302,9 @@ class _RegisterPageState extends State<RegisterPage> {
                           });
                         },
                         child: Icon(
-                          _secureText1 ? Icons.visibility : Icons.visibility_off,
+                          _secureText1
+                              ? Icons.visibility
+                              : Icons.visibility_off,
                           color: Colors.grey.shade400,
                         ),
                       ),
@@ -330,7 +335,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-                const SizedBox(height: 10,),
+                const SizedBox(
+                  height: 10,
+                ),
                 Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
@@ -397,6 +404,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (bool? newBool) {
                         setState(() {
                           isCheck = newBool;
+                          debugPrint('$newBool');
                         });
                       }),
                 ),
@@ -406,13 +414,19 @@ class _RegisterPageState extends State<RegisterPage> {
                 ElevatedButton(
                   onPressed: () {
                     if (formKey.currentState!.validate()) {
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return const IntroPages();
-                          },
-                        ),
-                      );
+                      if (isCheck == false) {
+                        showTopSnackBar1(context);
+                        // password.clear();
+                        // confirmPassword.clear();
+                      } else {
+                        Navigator.of(context).pushReplacement(
+                          MaterialPageRoute(
+                            builder: (BuildContext context) {
+                              return const IntroPages();
+                            },
+                          ),
+                        );
+                      }
                     }
                   },
                   style: ElevatedButton.styleFrom(
@@ -447,7 +461,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                       TextSpan(
                         text: 'Log in',
-                        style:  TextStyle(
+                        style: TextStyle(
                           fontWeight: FontWeight.bold,
                           color: Colors.red.shade600,
                           decoration: TextDecoration.underline,
@@ -466,7 +480,9 @@ class _RegisterPageState extends State<RegisterPage> {
                     ],
                   ),
                 ),
-                const SizedBox(height: 30,)
+                const SizedBox(
+                  height: 30,
+                )
               ],
             ),
           ),
@@ -474,4 +490,25 @@ class _RegisterPageState extends State<RegisterPage> {
       ),
     );
   }
+
+  void showTopSnackBar1(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Please agree to the Terms of service and Privacy Policy.',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.black.withOpacity(0.7),
+      )..show(context);
 }

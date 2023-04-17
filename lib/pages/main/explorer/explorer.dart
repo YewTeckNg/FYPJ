@@ -1,8 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:project/pages/main/explorer/explorermap.dart';
-import 'package:project/pages/main/explorer/searchlocation1.dart';
 import 'package:project/pages/main/explorer/searchlocation2.dart';
+import 'package:project/pages/main/explorer/searchlocation1.dart';
 import 'package:project/pages/main/profile.dart';
 
 class ExplorerPage extends StatefulWidget {
@@ -174,7 +174,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return const SearchLocationPage1();
+                            return SearchLocationPage1(
+                              firstLocation: widget.firstLocation,
+                              secondLocation: widget.secondLocation,
+                            );
                           },
                         ),
                       );
@@ -195,10 +198,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           color: Colors.grey.shade800,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 73),
+                          padding: const EdgeInsets.only(right: 42),
                           child: SizedBox(
                             height: 60,
-                            width: 175,
+                            width: 205,
                             child: Padding(
                               padding: const EdgeInsets.only(top: 22, left: 24),
                               child: Text(
@@ -266,7 +269,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return const SearchLocationPage2();
+                            return SearchLocationPage2(
+                              firstLocation: widget.firstLocation,
+                              secondLocation: widget.secondLocation,
+                            );
                           },
                         ),
                       );
@@ -287,16 +293,14 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           color: Colors.grey.shade800,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 80),
+                          padding: const EdgeInsets.only(right: 42),
                           child: SizedBox(
                             height: 60,
-                            width: 168,
+                            width: 205,
                             child: Padding(
                               padding: const EdgeInsets.only(top: 22, left: 24),
                               child: Text(
                                 widget.secondLocation,
-                                // ' 9 Raffles Place #25-00',
-
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                 ),
@@ -607,17 +611,25 @@ class _ExplorerPageState extends State<ExplorerPage> {
                   if (formKey.currentState!.validate()) {
                     nowSec = (_timeOfDay1.hour * 60 + _timeOfDay1.minute) * 60;
                     endSec = (_timeOfDay2.hour * 60 + _timeOfDay2.minute) * 60;
-                    if (widget.firstLocation == '9 Raffles Place #25-00' &&
-                        widget.secondLocation == 'Plaza Singapura' &&
-                        endSec > nowSec) {
+                    if (widget.firstLocation != 'Search destination' &&
+                        widget.secondLocation != 'Search destination' &&
+                        endSec > nowSec &&
+                        (selectedIndex == index ||
+                            selectedIndex == index2 ||
+                            selectedIndex == index3 ||
+                            selectedIndex == index4)) {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return const ExplorerMapPage();
+                            return ExplorerMapPage(
+                              firstLocation: widget.firstLocation,
+                              secondLocation: widget.secondLocation,
+                            );
                           },
                         ),
                       );
                     } else {
+                      debugPrint(widget.firstLocation);
                       nowSec =
                           (_timeOfDay1.hour * 60 + _timeOfDay1.minute) * 60;
                       endSec =
@@ -630,6 +642,11 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         showTopSnackBar2(context);
                       } else if (!(endSec > nowSec)) {
                         showTopSnackBar3(context);
+                      } else if (!(selectedIndex == index ||
+                          selectedIndex == index2 ||
+                          selectedIndex == index3 ||
+                          selectedIndex == index4)) {
+                        showTopSnackBar4(context);
                       }
                     }
                   }
@@ -708,6 +725,27 @@ class _ExplorerPageState extends State<ExplorerPage> {
         padding: const EdgeInsets.all(24),
         title: 'Error message',
         message: 'End Time must be more than start time',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.black.withOpacity(0.7),
+      )..show(context);
+
+  void showTopSnackBar4(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Please select a mode of transport.',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(

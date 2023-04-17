@@ -1,3 +1,4 @@
+import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project/pages/account/forgetpassword.dart';
@@ -22,6 +23,10 @@ class _LoginPageState extends State<LoginPage> {
   String namevalue = '';
 
   String passwordvalue = '';
+
+  TextEditingController name = TextEditingController();
+
+  TextEditingController password = TextEditingController();
 
   final String _errorMessage = '';
 
@@ -81,6 +86,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 50, left: 50),
                 child: TextFormField(
+                  controller: name,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -96,9 +102,6 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (namevalue) {
                     if (namevalue!.trim().isEmpty) {
                       return 'Username is required';
-                    }
-                    if (namevalue != 'Root') {
-                      return 'Invalid Username';
                     }
                     return null;
                   },
@@ -124,6 +127,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 50, left: 50),
                 child: TextFormField(
+                  controller: password,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -151,9 +155,6 @@ class _LoginPageState extends State<LoginPage> {
                   validator: (passwordvalue) {
                     if (passwordvalue!.trim().isEmpty) {
                       return 'Password is required';
-                    }
-                    if (passwordvalue != 'P@ssw0rd') {
-                      return 'Invalid Password';
                     }
                     return null;
                   },
@@ -212,16 +213,22 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          return ExplorerPage(
-                            firstLocation: 'Search destination',
-                            secondLocation: 'Search destination',
-                          );
-                        },
-                      ),
-                    );
+                    debugPrint(name.text);
+                    if (name.text.toString() == 'Root' && password.text.toString() == 'P@ssw0rd') {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return ExplorerPage(
+                              firstLocation: 'Search destination',
+                              secondLocation: 'Search destination',
+                            );
+                          },
+                        ),
+                      );
+                    } else {
+                      showTopSnackBar1(context);
+                      password.clear();
+                    }
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -281,4 +288,25 @@ class _LoginPageState extends State<LoginPage> {
       ),
     );
   }
+
+   void showTopSnackBar1(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Either Username or Password is incorrect. Please re-enter details.',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.black.withOpacity(0.7),
+      )..show(context);
 }
