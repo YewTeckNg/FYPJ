@@ -37,6 +37,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
 
   TimeOfDay _timeOfDay2 = TimeOfDay.now();
 
+  final TimeOfDay _timeOfDay3 = TimeOfDay.now();
+
   void _showTimePicker1() {
     showTimePicker(
       context: context,
@@ -61,6 +63,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
 
   int nowSec = 0;
   int endSec = 0;
+  int previousSec = 0;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -611,9 +614,11 @@ class _ExplorerPageState extends State<ExplorerPage> {
                   if (formKey.currentState!.validate()) {
                     nowSec = (_timeOfDay1.hour * 60 + _timeOfDay1.minute) * 60;
                     endSec = (_timeOfDay2.hour * 60 + _timeOfDay2.minute) * 60;
+                    previousSec = (_timeOfDay3.hour * 60 + _timeOfDay3.minute *60) * 60;
                     if (widget.firstLocation != 'Search destination' &&
                         widget.secondLocation != 'Search destination' &&
                         endSec > nowSec &&
+                        nowSec >= previousSec &&
                         (selectedIndex == index ||
                             selectedIndex == index2 ||
                             selectedIndex == index3 ||
@@ -630,11 +635,6 @@ class _ExplorerPageState extends State<ExplorerPage> {
                       );
                     } else {
                       debugPrint(widget.firstLocation);
-                      nowSec =
-                          (_timeOfDay1.hour * 60 + _timeOfDay1.minute) * 60;
-                      endSec =
-                          (_timeOfDay2.hour * 60 + _timeOfDay2.minute) * 60;
-                      debugPrint("$nowSec + $endSec");
                       if (widget.firstLocation == 'Search destination') {
                         showTopSnackBar1(context);
                       } else if (widget.secondLocation ==
@@ -642,11 +642,14 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         showTopSnackBar2(context);
                       } else if (!(endSec > nowSec)) {
                         showTopSnackBar3(context);
-                      } else if (!(selectedIndex == index ||
+                      } else if(!(nowSec >= previousSec)){
+                        showTopSnackBar4(context);
+                      }
+                      else if (!(selectedIndex == index ||
                           selectedIndex == index2 ||
                           selectedIndex == index3 ||
                           selectedIndex == index4)) {
-                        showTopSnackBar4(context);
+                        showTopSnackBar5(context);
                       }
                     }
                   }
@@ -735,8 +738,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         barBlur: 20,
         backgroundColor: Colors.black.withOpacity(0.7),
       )..show(context);
-
-  void showTopSnackBar4(BuildContext context) => Flushbar(
+void showTopSnackBar4(BuildContext context) => Flushbar(
         icon: const Icon(
           Icons.error,
           size: 32,
@@ -745,7 +747,27 @@ class _ExplorerPageState extends State<ExplorerPage> {
         shouldIconPulse: false,
         padding: const EdgeInsets.all(24),
         title: 'Error message',
-        message: 'Please select a mode of transport.',
+        message: 'Start time selected cannot be before current time',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.black.withOpacity(0.7),
+      )..show(context);
+  void showTopSnackBar5(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Please select a mode of transport',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(
