@@ -694,7 +694,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
 
   void showTopSnackBar2(BuildContext context) => Flushbar(
@@ -715,7 +715,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
 
   void showTopSnackBar3(BuildContext context) => Flushbar(
@@ -736,7 +736,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
 void showTopSnackBar4(BuildContext context) => Flushbar(
         icon: const Icon(
@@ -756,7 +756,7 @@ void showTopSnackBar4(BuildContext context) => Flushbar(
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
   void showTopSnackBar5(BuildContext context) => Flushbar(
         icon: const Icon(
@@ -776,6 +776,6 @@ void showTopSnackBar4(BuildContext context) => Flushbar(
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
 }

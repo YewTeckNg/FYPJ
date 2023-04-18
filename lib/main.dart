@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/LandingPage.dart';
-import 'package:project/pages/main/explorer/explorermap.dart';
 void main() {
   runApp(const MyApp());
 }

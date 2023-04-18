@@ -3,9 +3,8 @@ import 'package:flutter/material.dart';
 const String google_api_key = "AIzaSyAd4rEAQqf58fCJGABqW99teDP9BcuyN08";
 
 const String search_apiKey = "AIzaSyAHxjByJNxEhDmn3Dm1wE1Go0IX2MHZ2pg";
-const Color primaryColor = Color(0xFF7B61FF);
-const double defaultPadding = 16.0;
 
+const Color primaryColor = Color(0xFF006491);
 const Color textColorLightTheme = Color(0xFF0D0D0E);
 
 const Color secondaryColor80LightTheme = Color(0xFF202225);
@@ -14,3 +13,5 @@ const Color secondaryColor40LightTheme = Color(0xFF585858);
 const Color secondaryColor20LightTheme = Color(0xFF787F84);
 const Color secondaryColor10LightTheme = Color(0xFFEEEEEE);
 const Color secondaryColor5LightTheme = Color(0xFFF8F8F8);
+
+const defaultPadding = 16.0;
