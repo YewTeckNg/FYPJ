@@ -1,4 +1,3 @@
-
 import 'dart:async';
 
 import 'package:flutter/material.dart';
@@ -8,25 +7,39 @@ import 'package:project/pages/main/explorer/explorer.dart';
 
 import '../../../constants.dart';
 
-
 class ExplorerMapPage extends StatefulWidget {
-    String firstLocation;
+  String firstLocation;
 
   String secondLocation;
 
-  ExplorerMapPage(
-      {Key? key, required this.firstLocation, required this.secondLocation})
-      : super(key: key);
+  TimeOfDay startTime;
+
+  TimeOfDay endTime;
+
+  int selectedIndex;
+
+  ExplorerMapPage({
+    Key? key,
+    required this.firstLocation,
+    required this.secondLocation,
+    required this.startTime,
+    required this.endTime,
+    required this.selectedIndex,
+  }) : super(key: key);
 
   @override
   State<ExplorerMapPage> createState() => ExplorerMapPageState();
 }
 
 class ExplorerMapPageState extends State<ExplorerMapPage> {
-final Completer<GoogleMapController> _controller = Completer();
+  TimeOfDay _timeOfDay1 = TimeOfDay.now();
 
-  static const LatLng sourceLocation = LatLng(1.380089433404809, 103.8489916124544);
-  static const LatLng destination = LatLng(1.380089433404809, 103.8489916124544);
+  final Completer<GoogleMapController> _controller = Completer();
+
+  static const LatLng sourceLocation =
+      LatLng(1.380089433404809, 103.8489916124544);
+  static const LatLng destination =
+      LatLng(1.380089433404809, 103.8489916124544);
 
   List<LatLng> polyLineCoordinates = [];
 
@@ -68,6 +81,9 @@ final Completer<GoogleMapController> _controller = Completer();
                   return ExplorerPage(
                     firstLocation: widget.firstLocation,
                     secondLocation: widget.secondLocation,
+                    startTime: widget.startTime,
+                    endTime: widget.endTime,
+                    selectedIndex: widget.selectedIndex,
                   );
                 },
               ),

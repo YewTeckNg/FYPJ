@@ -14,6 +14,10 @@ class PointsPage extends StatefulWidget {
 class _PointsPageState extends State<PointsPage> {
   int pageIndex = 0;
 
+  TimeOfDay startTime = TimeOfDay.now();
+
+  TimeOfDay endTime = TimeOfDay.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,10 +36,9 @@ class _PointsPageState extends State<PointsPage> {
             child: Text(
               'Buff Rewards',
               style: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.bold
-              ),
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
           ),
           Padding(
@@ -168,6 +171,9 @@ class _PointsPageState extends State<PointsPage> {
                               return ExplorerPage(
                                 firstLocation: 'Search destination',
                                 secondLocation: 'Search destination',
+                                startTime: startTime,
+                                endTime: endTime,
+                                selectedIndex: -1,
                               );
                             },
                           ),

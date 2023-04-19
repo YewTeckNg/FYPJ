@@ -38,6 +38,10 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   int pageIndex = 0;
 
+  TimeOfDay startTime = TimeOfDay.now();
+
+  TimeOfDay endTime = TimeOfDay.now();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -83,6 +87,9 @@ class _HomePageState extends State<HomePage> {
                       return ExplorerPage(
                         firstLocation: 'Search destination',
                         secondLocation: 'Search destination',
+                        startTime: startTime,
+                        endTime: endTime,
+                        selectedIndex: -1,
                       );
                     },
                   ),
@@ -223,6 +230,9 @@ class _HomePageState extends State<HomePage> {
                               return ExplorerPage(
                                 firstLocation: 'Search destination',
                                 secondLocation: 'Search destination',
+                                startTime: startTime,
+                                endTime: endTime,
+                                selectedIndex: -1,
                               );
                             },
                           ),

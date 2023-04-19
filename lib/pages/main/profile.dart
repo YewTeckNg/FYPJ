@@ -5,7 +5,6 @@ import 'package:project/pages/main/explorer/currentlocation.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
 import 'package:project/pages/main/settings.dart';
 
-
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
 
@@ -15,6 +14,10 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   int pageIndex = 0;
+
+  TimeOfDay startTime = TimeOfDay.now();
+
+  TimeOfDay endTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -332,6 +335,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               return ExplorerPage(
                                 firstLocation: 'Search destination',
                                 secondLocation: 'Search destination',
+                                startTime: startTime,
+                                endTime: endTime,
+                                selectedIndex: -1,
                               );
                             },
                           ),
@@ -347,9 +353,7 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return const CurrentLocationPage(
-                                
-                              );
+                              return const CurrentLocationPage();
                             },
                           ),
                         );

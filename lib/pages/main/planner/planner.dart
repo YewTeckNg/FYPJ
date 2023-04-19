@@ -260,16 +260,18 @@ class _PlannerPageState extends State<PlannerPage> {
                       )),
                   IconButton(
                       onPressed: () {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return ExplorerPage(
-                                firstLocation: 'Search destination',
-                                secondLocation: 'Search destination',
-                              );
-                            },
-                          ),
-                        );
+                        // Navigator.of(context).pushReplacement(
+                        //   MaterialPageRoute(
+                        //     builder: (BuildContext context) {
+                        //       return ExplorerPage(
+                        //         firstLocation: 'Search destination',
+                        //         secondLocation: 'Search destination',
+                        //         startTime: '',
+                        //         endTime: '',
+                        //       );
+                        //     },
+                        //   ),
+                        // );
                       },
                       icon: const Icon(
                         Icons.location_on_outlined,

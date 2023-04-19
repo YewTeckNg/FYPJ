@@ -30,6 +30,9 @@ class _LoginPageState extends State<LoginPage> {
 
   final String _errorMessage = '';
 
+  TimeOfDay startTime = TimeOfDay.now();
+
+  TimeOfDay endTime = TimeOfDay.now();
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -214,13 +217,17 @@ class _LoginPageState extends State<LoginPage> {
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
                     debugPrint(name.text);
-                    if (name.text.toString() == 'Root' && password.text.toString() == 'P@ssw0rd') {
+                    if (name.text.toString() == 'Root' &&
+                        password.text.toString() == 'P@ssw0rd') {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
                             return ExplorerPage(
                               firstLocation: 'Search destination',
                               secondLocation: 'Search destination',
+                              startTime: startTime,
+                              endTime: endTime,
+                              selectedIndex: -1,
                             );
                           },
                         ),
@@ -289,7 +296,7 @@ class _LoginPageState extends State<LoginPage> {
     );
   }
 
-   void showTopSnackBar1(BuildContext context) => Flushbar(
+  void showTopSnackBar1(BuildContext context) => Flushbar(
         icon: const Icon(
           Icons.error,
           size: 32,
@@ -298,7 +305,8 @@ class _LoginPageState extends State<LoginPage> {
         shouldIconPulse: false,
         padding: const EdgeInsets.all(24),
         title: 'Error message',
-        message: 'Either Username or Password is incorrect. Please re-enter details.',
+        message:
+            'Either Username or Password is incorrect. Please re-enter details.',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(
