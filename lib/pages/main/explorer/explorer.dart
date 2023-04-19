@@ -1,8 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:project/pages/main/explorer/explorermap.dart';
 import 'package:project/pages/main/explorer/searchlocation2.dart';
 import 'package:project/pages/main/explorer/searchlocation1.dart';
+import 'package:project/pages/main/explorer/selectroute.dart';
 import 'package:project/pages/main/profile.dart';
 
 class ExplorerPage extends StatefulWidget {
@@ -10,8 +10,19 @@ class ExplorerPage extends StatefulWidget {
 
   String secondLocation;
 
+  TimeOfDay startTime;
+
+  TimeOfDay endTime;
+
+  int selectedIndex;
+
   ExplorerPage(
-      {Key? key, required this.firstLocation, required this.secondLocation})
+      {Key? key,
+      required this.firstLocation,
+      required this.secondLocation,
+      required this.startTime,
+      required this.endTime,
+      required this.selectedIndex})
       : super(key: key);
 
   @override
@@ -21,7 +32,7 @@ class ExplorerPage extends StatefulWidget {
 class _ExplorerPageState extends State<ExplorerPage> {
   int pageIndex = 0;
 
-  int selectedIndex = -1;
+  // int selectedIndex = -1;
 
   int index = 1;
   int index2 = 2;
@@ -46,6 +57,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
     ).then((value) {
       setState(() {
         _timeOfDay1 = value!;
+        widget.startTime = _timeOfDay1;
       });
     });
   }
@@ -57,6 +69,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
     ).then((value) {
       setState(() {
         _timeOfDay2 = value!;
+        widget.endTime = _timeOfDay2;
       });
     });
   }
@@ -180,6 +193,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             return SearchLocationPage1(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
+                              startTime: widget.startTime,
+                              endTime: widget.endTime,
+                              selectedIndex: widget.selectedIndex,
                             );
                           },
                         ),
@@ -209,8 +225,6 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               padding: const EdgeInsets.only(top: 22, left: 24),
                               child: Text(
                                 widget.firstLocation,
-                                // ' 9 Raffles Place #25-00',
-
                                 style: TextStyle(
                                   color: Colors.grey.shade400,
                                 ),
@@ -275,6 +289,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             return SearchLocationPage2(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
+                              startTime: widget.startTime,
+                              endTime: widget.endTime,
+                              selectedIndex: widget.selectedIndex,
                             );
                           },
                         ),
@@ -382,7 +399,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             color: Colors.grey.shade400,
                           ),
                           Text(
-                            _timeOfDay1.format(context).toString(),
+                            widget.startTime.format(context).toString(),
                             style: TextStyle(
                               color: Colors.grey.shade400,
                             ),
@@ -411,7 +428,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             color: Colors.grey.shade400,
                           ),
                           Text(
-                            _timeOfDay2.format(context).toString(),
+                            widget.endTime.format(context).toString(),
                             style: TextStyle(
                               color: Colors.grey.shade400,
                             ),
@@ -448,7 +465,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              selectedIndex = index;
+                              widget.selectedIndex = index;
                             });
                           },
                           child: Padding(
@@ -458,7 +475,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: selectedIndex == index
+                                color: widget.selectedIndex == index
                                     ? Colors.red
                                     : Colors.grey.shade200,
                               ),
@@ -471,7 +488,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                       //   size: 25,
                                       //   color: Colors.black,
                                       // ),
-                                      child: selectedIndex == index
+                                      child: widget.selectedIndex == index
                                           ? Image.asset(
                                               'assets/public-transport.jpg',
                                               height: 35,
@@ -492,7 +509,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              selectedIndex = index2;
+                              widget.selectedIndex = index2;
                             });
                           },
                           child: Padding(
@@ -502,7 +519,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: selectedIndex == index2
+                                color: widget.selectedIndex == index2
                                     ? Colors.red
                                     : Colors.grey.shade200,
                               ),
@@ -510,7 +527,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 children: [
                                   Padding(
                                       padding: const EdgeInsets.only(left: 18),
-                                      child: selectedIndex == index2
+                                      child: widget.selectedIndex == index2
                                           ? const Icon(
                                               Icons.directions_car,
                                               size: 25,
@@ -529,7 +546,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              selectedIndex = index3;
+                              widget.selectedIndex = index3;
                             });
                           },
                           child: Padding(
@@ -539,7 +556,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: selectedIndex == index3
+                                color: widget.selectedIndex == 3
                                     ? Colors.red
                                     : Colors.grey.shade200,
                               ),
@@ -547,7 +564,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 children: [
                                   Padding(
                                       padding: const EdgeInsets.only(left: 18),
-                                      child: selectedIndex == index3
+                                      child: widget.selectedIndex == 3
                                           ? const Icon(
                                               Icons.directions_walk,
                                               size: 25,
@@ -566,7 +583,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              selectedIndex = index4;
+                              widget.selectedIndex = index4;
                             });
                           },
                           child: Padding(
@@ -576,7 +593,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: selectedIndex == index4
+                                color: widget.selectedIndex == index4
                                     ? Colors.red
                                     : Colors.grey.shade200,
                               ),
@@ -584,7 +601,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                 children: [
                                   Padding(
                                     padding: const EdgeInsets.only(left: 18),
-                                    child: selectedIndex == index4
+                                    child: widget.selectedIndex == index4
                                         ? const Icon(
                                             Icons.directions_bike,
                                             size: 25,
@@ -612,43 +629,55 @@ class _ExplorerPageState extends State<ExplorerPage> {
               child: ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    nowSec = (_timeOfDay1.hour * 60 + _timeOfDay1.minute) * 60;
-                    endSec = (_timeOfDay2.hour * 60 + _timeOfDay2.minute) * 60;
-                    previousSec = (_timeOfDay3.hour * 60 + _timeOfDay3.minute *60) * 60;
+                    nowSec =
+                        (widget.startTime.hour * 60 + widget.startTime.minute) *
+                            60;
+                    endSec =
+                        (widget.endTime.hour * 60 + widget.endTime.minute) * 60;
+                    previousSec =
+                        (_timeOfDay3.hour * 60 + _timeOfDay3.minute * 60) * 60;
+                    debugPrint('$nowSec');
+                    debugPrint('$previousSec');
                     if (widget.firstLocation != 'Search destination' &&
                         widget.secondLocation != 'Search destination' &&
                         endSec > nowSec &&
-                        nowSec >= previousSec &&
-                        (selectedIndex == index ||
-                            selectedIndex == index2 ||
-                            selectedIndex == index3 ||
-                            selectedIndex == index4)) {
+                        // (nowSec == previousSec || nowSec > previousSec) &&
+                        (widget.selectedIndex == index ||
+                            widget.selectedIndex == index2 ||
+                            widget.selectedIndex == index3 ||
+                            widget.selectedIndex == index4)) {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return ExplorerMapPage(
+                            return SelectRoutePage(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
+                              startTime: widget.startTime,
+                              endTime: widget.endTime,
+                              selectedIndex: widget.selectedIndex,
                             );
                           },
                         ),
                       );
                     } else {
                       debugPrint(widget.firstLocation);
+                      debugPrint('$nowSec');
+                      debugPrint('$previousSec');
                       if (widget.firstLocation == 'Search destination') {
                         showTopSnackBar1(context);
                       } else if (widget.secondLocation ==
                           'Search destination') {
                         showTopSnackBar2(context);
                       } else if (!(endSec > nowSec)) {
+                        debugPrint('$nowSec');
+                        debugPrint('$previousSec');
                         showTopSnackBar3(context);
-                      } else if(!(nowSec >= previousSec)){
+                      } else if (!(nowSec < previousSec)) {
                         showTopSnackBar4(context);
-                      }
-                      else if (!(selectedIndex == index ||
-                          selectedIndex == index2 ||
-                          selectedIndex == index3 ||
-                          selectedIndex == index4)) {
+                      } else if (!(widget.selectedIndex == index ||
+                          widget.selectedIndex == index2 ||
+                          widget.selectedIndex == index3 ||
+                          widget.selectedIndex == index4)) {
                         showTopSnackBar5(context);
                       }
                     }
@@ -738,7 +767,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         barBlur: 20,
         backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
-void showTopSnackBar4(BuildContext context) => Flushbar(
+  void showTopSnackBar4(BuildContext context) => Flushbar(
         icon: const Icon(
           Icons.error,
           size: 32,

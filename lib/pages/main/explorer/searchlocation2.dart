@@ -14,9 +14,20 @@ class SearchLocationPage2 extends StatefulWidget {
 
   String secondLocation;
 
-  SearchLocationPage2(
-      {Key? key, required this.firstLocation, required this.secondLocation})
-      : super(key: key);
+  TimeOfDay startTime;
+
+  TimeOfDay endTime;
+
+  int selectedIndex;
+
+  SearchLocationPage2({
+    Key? key,
+    required this.firstLocation,
+    required this.secondLocation,
+    required this.startTime,
+    required this.endTime,
+    required this.selectedIndex,
+  }) : super(key: key);
 
   @override
   State<SearchLocationPage2> createState() => _SearchLocationPage2State();
@@ -79,6 +90,9 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                       return ExplorerPage(
                         firstLocation: widget.firstLocation,
                         secondLocation: widget.secondLocation,
+                        startTime: widget.startTime,
+                        endTime: widget.endTime,
+                        selectedIndex: widget.selectedIndex,
                       );
                     },
                   ),
@@ -157,7 +171,21 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
           Padding(
             padding: const EdgeInsets.all(defaultPadding),
             child: ElevatedButton.icon(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(
+                    builder: (BuildContext context) {
+                      return ExplorerPage(
+                        firstLocation: widget.firstLocation,
+                        secondLocation: 'Nanyang Polytechnic',
+                        startTime: widget.startTime,
+                        endTime: widget.endTime,
+                        selectedIndex: widget.selectedIndex,
+                      );
+                    },
+                  ),
+                );
+              },
               icon: const Icon(Icons.location_on),
               label: const Text("Use my Current Location"),
               style: ElevatedButton.styleFrom(
@@ -187,6 +215,9 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                         return ExplorerPage(
                           firstLocation: widget.firstLocation,
                           secondLocation: placePredictions[index].description!,
+                          startTime: widget.startTime,
+                          endTime: widget.endTime,
+                          selectedIndex: widget.selectedIndex,
                         );
                       },
                     ),

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
-import 'package:project/pages/main/home.dart';
 import 'package:project/pages/intro_pages/intro_page_1.dart';
 import 'package:project/pages/intro_pages/intro_page_2.dart';
 import 'package:project/pages/intro_pages/intro_page_3.dart';
@@ -19,6 +18,10 @@ class _IntroPagesState extends State<IntroPages> {
 
   //keep track of whether we on the last page
   bool onLastPage = false;
+
+  TimeOfDay startTime = TimeOfDay.now();
+
+  TimeOfDay endTime = TimeOfDay.now();
 
   @override
   Widget build(BuildContext context) {
@@ -66,6 +69,9 @@ class _IntroPagesState extends State<IntroPages> {
                                   return ExplorerPage(
                                     firstLocation: 'Search destination',
                                     secondLocation: 'Search destination',
+                                    startTime: startTime,
+                                    endTime: endTime,
+                                    selectedIndex: -1,
                                   );
                                 },
                               ),
