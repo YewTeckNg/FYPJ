@@ -338,6 +338,10 @@ class _ProfilePageState extends State<ProfilePage> {
                                 startTime: startTime,
                                 endTime: endTime,
                                 selectedIndex: -1,
+                                latStart: 0,
+                                latEnd: 0,
+                                longStart: 0,
+                                longEnd: 0,
                               );
                             },
                           ),

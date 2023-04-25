@@ -72,6 +72,10 @@ class _IntroPagesState extends State<IntroPages> {
                                     startTime: startTime,
                                     endTime: endTime,
                                     selectedIndex: -1,
+                                    latStart: 0,
+                                    latEnd: 0,
+                                    longStart: 0,
+                                    longEnd: 0,
                                   );
                                 },
                               ),

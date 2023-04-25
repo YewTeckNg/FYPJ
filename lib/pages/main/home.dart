@@ -90,6 +90,10 @@ class _HomePageState extends State<HomePage> {
                         startTime: startTime,
                         endTime: endTime,
                         selectedIndex: -1,
+                        latStart: 0,
+                        latEnd: 0,
+                        longStart: 0,
+                        longEnd: 0,
                       );
                     },
                   ),
@@ -217,7 +221,7 @@ class _HomePageState extends State<HomePage> {
                         //   ),
                         // );
                       },
-                      icon:  Icon(
+                      icon: Icon(
                         Icons.home_filled,
                         color: Colors.red.shade600,
                         size: 30,
@@ -233,6 +237,10 @@ class _HomePageState extends State<HomePage> {
                                 startTime: startTime,
                                 endTime: endTime,
                                 selectedIndex: -1,
+                                latStart: 0,
+                                latEnd: 0,
+                                longStart: 0,
+                                longEnd: 0,
                               );
                             },
                           ),
