@@ -8,6 +8,7 @@ import 'package:project/pages/main/profile.dart';
 import '../../../constants.dart';
 
 class CurrentLocationPage extends StatefulWidget {
+  
   const CurrentLocationPage({Key? key}) : super(key: key);
 
   @override
@@ -17,8 +18,8 @@ class CurrentLocationPage extends StatefulWidget {
 class CurrentLocationPageState extends State<CurrentLocationPage> {
  final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation = LatLng(1.3800,103.8489);
-  static const LatLng destination = LatLng(1.3800,103.8489);
+  static const LatLng sourceLocation = LatLng(1.37995,103.8489487);
+  static const LatLng destination = LatLng(1.37995,103.8489487);
 
   List<LatLng> polyLineCoordinates = [];
 

@@ -18,6 +18,14 @@ class ExplorerMapPage extends StatefulWidget {
 
   int selectedIndex;
 
+  double latStart;
+
+  double longStart;
+
+  double latEnd;
+
+  double longEnd;
+
   ExplorerMapPage({
     Key? key,
     required this.firstLocation,
@@ -25,6 +33,10 @@ class ExplorerMapPage extends StatefulWidget {
     required this.startTime,
     required this.endTime,
     required this.selectedIndex,
+    required this.latStart,
+    required this.latEnd,
+    required this.longStart,
+    required this.longEnd,
   }) : super(key: key);
 
   @override
@@ -32,14 +44,17 @@ class ExplorerMapPage extends StatefulWidget {
 }
 
 class ExplorerMapPageState extends State<ExplorerMapPage> {
-  TimeOfDay _timeOfDay1 = TimeOfDay.now();
+  final TimeOfDay _timeOfDay1 = TimeOfDay.now();
 
   final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation =
-      LatLng(1.380089433404809, 103.8489916124544);
-  static const LatLng destination =
-      LatLng(1.380089433404809, 103.8489916124544);
+//  late double latStart = widget.latStart;
+
+  static const LatLng sourceLocation = LatLng(1.37995, 103.8489487);
+  static const LatLng destination = LatLng(1.3774334, 103.848787);
+
+  // late LatLng sourceLocation = LatLng(widget.latStart, widget.longStart);
+  // late LatLng destination = LatLng(widget.latEnd, widget.longEnd);
 
   List<LatLng> polyLineCoordinates = [];
 
@@ -84,6 +99,10 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
                     startTime: widget.startTime,
                     endTime: widget.endTime,
                     selectedIndex: widget.selectedIndex,
+                    latStart: widget.latStart,
+                    latEnd: widget.latEnd,
+                    longStart: widget.longStart,
+                    longEnd: widget.longEnd,
                   );
                 },
               ),
@@ -118,10 +137,12 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
           const Marker(
             markerId: MarkerId("source"),
             position: sourceLocation,
+            // position: LatLng(widget.latStart, widget.longStart),
           ),
           const Marker(
             markerId: MarkerId("destination"),
             position: destination,
+            // position: LatLng(widget.latEnd, widget.longEnd),
           ),
         },
       ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
 
@@ -8,6 +7,7 @@ import '../../../components/network_util.dart';
 import '../../../constants.dart';
 import '../../../models/autocomplate_prediction.dart';
 import '../../../models/place_auto_complate_response.dart';
+import 'package:google_maps_webservice/places.dart';
 
 class SearchLocationPage1 extends StatefulWidget {
   String firstLocation;
@@ -20,6 +20,14 @@ class SearchLocationPage1 extends StatefulWidget {
 
   int selectedIndex;
 
+  double latStart;
+
+  double longStart;
+
+  double latEnd;
+
+  double longEnd;
+
   SearchLocationPage1({
     Key? key,
     required this.firstLocation,
@@ -27,6 +35,10 @@ class SearchLocationPage1 extends StatefulWidget {
     required this.startTime,
     required this.endTime,
     required this.selectedIndex,
+    required this.latStart,
+    required this.latEnd,
+    required this.longStart,
+    required this.longEnd,
   }) : super(key: key);
 
   @override
@@ -59,62 +71,58 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
     }
   }
 
+  final GoogleMapsPlaces _places = GoogleMapsPlaces(apiKey: search_apiKey);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        systemOverlayStyle: SystemUiOverlayStyle.dark,
-        toolbarTextStyle: const TextStyle(color: textColorLightTheme),
-        // leading: const Padding(
-        //   padding: EdgeInsets.only(left: defaultPadding),
-        //   // child: CircleAvatar(
-        //   //   backgroundColor: secondaryColor10LightTheme,
-        //   //   child: SvgPicture.asset(
-        //   //     "assets/icons/location.svg",
-        //   //     height: 16,
-        //   //     width: 16,
-        //   //     color: secondaryColor40LightTheme,
-        //   //   ),
-        //   // ),
-        // ),
-        title: Row(
-          children: [
-            IconButton(
-              onPressed: () {
-                Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(
-                    builder: (BuildContext context) {
-                      return ExplorerPage(
-                        firstLocation: widget.firstLocation,
-                        secondLocation: widget.secondLocation,
-                        startTime: widget.startTime,
-                        endTime: widget.endTime,
-                        selectedIndex: widget.selectedIndex,
-                      );
-                    },
-                  ),
-                );
-              },
-              icon: const Icon(
-                Icons.arrow_back_outlined,
-                color: Colors.black,
-              ),
-            ),
-            const Padding(
-              padding: EdgeInsets.only(left: 7.0),
-              child: Text(
-                "Your starting location",
-                style: TextStyle(color: textColorLightTheme),
-              ),
-            ),
-          ],
-        ),
-      ),
       body: Column(
         children: [
+          Padding(
+            padding: const EdgeInsets.only(top: 28, bottom: 5),
+            child: Row(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 14),
+                  child: IconButton(
+                    onPressed: () {
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (BuildContext context) {
+                            return ExplorerPage(
+                              firstLocation: widget.firstLocation,
+                              secondLocation: widget.secondLocation,
+                              startTime: widget.startTime,
+                              endTime: widget.endTime,
+                              selectedIndex: widget.selectedIndex,
+                              latStart: widget.latStart,
+                              latEnd: widget.latEnd,
+                              longStart: widget.longStart,
+                              longEnd: widget.longEnd,
+                            );
+                          },
+                        ),
+                      );
+                    },
+                    icon: const Icon(
+                      Icons.arrow_back_outlined,
+                      color: Colors.black,
+                    ),
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(left: 65),
+                  child: Text(
+                    "Your starting location",
+                    style: TextStyle(
+                        color: textColorLightTheme,
+                        fontSize: 20,
+                        fontWeight: FontWeight.w500),
+                  ),
+                ),
+              ],
+            ),
+          ),
           Padding(
             padding: const EdgeInsets.only(
               left: 16,
@@ -172,6 +180,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
             padding: const EdgeInsets.all(defaultPadding),
             child: ElevatedButton.icon(
               onPressed: () {
+                // debugPrint();
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
@@ -181,6 +190,10 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                         startTime: widget.startTime,
                         endTime: widget.endTime,
                         selectedIndex: widget.selectedIndex,
+                        latStart: widget.latStart,
+                        latEnd: widget.latEnd,
+                        longStart: widget.longStart,
+                        longEnd: widget.longEnd,
                       );
                     },
                   ),
@@ -208,7 +221,25 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
             child: ListView.builder(
               itemCount: placePredictions.length,
               itemBuilder: (context, index) => LocationListTile(
-                press: () {
+                press: () async {
+                  debugPrint(placePredictions[index].placeId!);
+                  var placeId = placePredictions[index].placeId!;
+
+                  // PlacesDetailsResponse detail = _places
+                  //     .getDetailsByPlaceId(placeId) as PlacesDetailsResponse;
+
+                  // double? lat = detail.result.geometry?.location.lat;
+                  // double? lng = detail.result.geometry?.location.lng;
+
+                  // print(lat);
+                  // print(lng);
+
+                  PlacesDetailsResponse detail =
+                      await _places.getDetailsByPlaceId(placeId);
+
+                  double? lat1 = detail.result.geometry?.location.lat;
+                  double? lng1 = detail.result.geometry?.location.lng;
+
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
@@ -218,6 +249,10 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                           startTime: widget.startTime,
                           endTime: widget.endTime,
                           selectedIndex: widget.selectedIndex,
+                          latStart: lat1!,
+                          latEnd: lng1!,
+                          longStart: widget.longStart,
+                          longEnd: widget.longEnd,
                         );
                       },
                     ),

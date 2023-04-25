@@ -1,8 +1,8 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
+import 'package:project/pages/main/explorer/explorermap.dart';
 import 'package:project/pages/main/explorer/searchlocation2.dart';
 import 'package:project/pages/main/explorer/searchlocation1.dart';
-import 'package:project/pages/main/explorer/selectroute.dart';
 import 'package:project/pages/main/profile.dart';
 
 class ExplorerPage extends StatefulWidget {
@@ -16,14 +16,26 @@ class ExplorerPage extends StatefulWidget {
 
   int selectedIndex;
 
-  ExplorerPage(
-      {Key? key,
-      required this.firstLocation,
-      required this.secondLocation,
-      required this.startTime,
-      required this.endTime,
-      required this.selectedIndex})
-      : super(key: key);
+  double latStart;
+
+  double longStart;
+
+  double latEnd;
+
+  double longEnd;
+
+  ExplorerPage({
+    Key? key,
+    required this.firstLocation,
+    required this.secondLocation,
+    required this.startTime,
+    required this.endTime,
+    required this.selectedIndex,
+    required this.latStart,
+    required this.latEnd,
+    required this.longStart,
+    required this.longEnd,
+  }) : super(key: key);
 
   @override
   State<ExplorerPage> createState() => _ExplorerPageState();
@@ -196,6 +208,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               startTime: widget.startTime,
                               endTime: widget.endTime,
                               selectedIndex: widget.selectedIndex,
+                              latStart: widget.latStart,
+                              latEnd: widget.latEnd,
+                              longStart: widget.longStart,
+                              longEnd: widget.longEnd,
                             );
                           },
                         ),
@@ -292,6 +308,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               startTime: widget.startTime,
                               endTime: widget.endTime,
                               selectedIndex: widget.selectedIndex,
+                              latStart: widget.latStart,
+                              latEnd: widget.latEnd,
+                              longStart: widget.longStart,
+                              longEnd: widget.longEnd,
                             );
                           },
                         ),
@@ -635,44 +655,48 @@ class _ExplorerPageState extends State<ExplorerPage> {
                     endSec =
                         (widget.endTime.hour * 60 + widget.endTime.minute) * 60;
                     previousSec =
-                        (_timeOfDay3.hour * 60 + _timeOfDay3.minute * 60) * 60;
+                        (_timeOfDay3.hour * 60 + _timeOfDay3.minute) * 60;
                     debugPrint('$nowSec');
                     debugPrint('$previousSec');
+                    debugPrint('$nowSec');
                     if (widget.firstLocation != 'Search destination' &&
                         widget.secondLocation != 'Search destination' &&
                         endSec > nowSec &&
-                        // (nowSec == previousSec || nowSec > previousSec) &&
+                        nowSec >= previousSec &&
                         (widget.selectedIndex == index ||
                             widget.selectedIndex == index2 ||
                             widget.selectedIndex == index3 ||
                             widget.selectedIndex == index4)) {
+                      debugPrint('${widget.latStart}');
+                      debugPrint('${widget.longStart}');
+                      debugPrint('${widget.latEnd}');
+                      debugPrint('${widget.longEnd}');
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return SelectRoutePage(
+                            return ExplorerMapPage(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
                               selectedIndex: widget.selectedIndex,
+                              latStart: widget.latStart,
+                              latEnd: widget.latEnd,
+                              longStart: widget.longStart,
+                              longEnd: widget.longEnd,
                             );
                           },
                         ),
                       );
                     } else {
-                      debugPrint(widget.firstLocation);
-                      debugPrint('$nowSec');
-                      debugPrint('$previousSec');
                       if (widget.firstLocation == 'Search destination') {
                         showTopSnackBar1(context);
                       } else if (widget.secondLocation ==
                           'Search destination') {
                         showTopSnackBar2(context);
                       } else if (!(endSec > nowSec)) {
-                        debugPrint('$nowSec');
-                        debugPrint('$previousSec');
                         showTopSnackBar3(context);
-                      } else if (!(nowSec < previousSec)) {
+                      } else if (nowSec < previousSec) {
                         showTopSnackBar4(context);
                       } else if (!(widget.selectedIndex == index ||
                           widget.selectedIndex == index2 ||
