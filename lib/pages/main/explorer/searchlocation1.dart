@@ -18,7 +18,9 @@ class SearchLocationPage1 extends StatefulWidget {
 
   TimeOfDay endTime;
 
-  int selectedIndex;
+  int selectedIconIndex;
+
+  int endDestinationChoice;
 
   double latStart;
 
@@ -34,7 +36,8 @@ class SearchLocationPage1 extends StatefulWidget {
     required this.secondLocation,
     required this.startTime,
     required this.endTime,
-    required this.selectedIndex,
+    required this.selectedIconIndex,
+    required this.endDestinationChoice,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -94,7 +97,8 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
-                              selectedIndex: widget.selectedIndex,
+                              selectedIconIndex: widget.selectedIconIndex,
+                              endDestinationChoice: widget.endDestinationChoice,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -111,7 +115,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(left: 65),
+                  padding: EdgeInsets.only(left: 45),
                   child: Text(
                     "Your starting location",
                     style: TextStyle(
@@ -157,7 +161,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                     textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Search your location",
+                      hintText: "Search your starting location",
                       prefixIcon: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: SvgPicture.asset(
@@ -189,10 +193,13 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                         secondLocation: widget.secondLocation,
                         startTime: widget.startTime,
                         endTime: widget.endTime,
-                        selectedIndex: widget.selectedIndex,
-                        latStart: widget.latStart,
+                        selectedIconIndex: widget.selectedIconIndex,
+                        endDestinationChoice: widget.endDestinationChoice,
+                        // start coords
+                        latStart: 1.3800,
+                        longStart: 103.8489,
+                        // end coords
                         latEnd: widget.latEnd,
-                        longStart: widget.longStart,
                         longEnd: widget.longEnd,
                       );
                     },
@@ -239,7 +246,8 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
 
                   double? lat1 = detail.result.geometry?.location.lat;
                   double? lng1 = detail.result.geometry?.location.lng;
-
+                  print('$lat1');
+                  print('$lng1');
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
@@ -248,10 +256,13 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                           secondLocation: widget.secondLocation,
                           startTime: widget.startTime,
                           endTime: widget.endTime,
-                          selectedIndex: widget.selectedIndex,
+                          selectedIconIndex: widget.selectedIconIndex,
+                          endDestinationChoice: widget.endDestinationChoice,
+                          // start coords
                           latStart: lat1!,
-                          latEnd: lng1!,
-                          longStart: widget.longStart,
+                          longStart: lng1!,
+                          // end coords
+                          latEnd: widget.latEnd,
                           longEnd: widget.longEnd,
                         );
                       },

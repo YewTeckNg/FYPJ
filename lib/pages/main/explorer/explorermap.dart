@@ -3,7 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:project/pages/main/explorer/explorer.dart';
+import 'package:project/pages/main/explorer/selectroute.dart';
 
 import '../../../constants.dart';
 
@@ -16,7 +16,9 @@ class ExplorerMapPage extends StatefulWidget {
 
   TimeOfDay endTime;
 
-  int selectedIndex;
+  int selectedIconIndex;
+
+  int endDestinationChoice;
 
   double latStart;
 
@@ -32,7 +34,8 @@ class ExplorerMapPage extends StatefulWidget {
     required this.secondLocation,
     required this.startTime,
     required this.endTime,
-    required this.selectedIndex,
+    required this.selectedIconIndex,
+    required this.endDestinationChoice,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -50,8 +53,8 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
 
 //  late double latStart = widget.latStart;
 
-  static const LatLng sourceLocation = LatLng(1.37995, 103.8489487);
-  static const LatLng destination = LatLng(1.3774334, 103.848787);
+  static const LatLng sourceLocation = LatLng(1.3800, 103.8489);
+  static const LatLng destination = LatLng(1.3691149, 103.8454342);
 
   // late LatLng sourceLocation = LatLng(widget.latStart, widget.longStart);
   // late LatLng destination = LatLng(widget.latEnd, widget.longEnd);
@@ -73,7 +76,6 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
           LatLng(point.latitude, point.longitude),
         );
       }
-
       setState(() {});
     }
   }
@@ -90,15 +92,20 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
       appBar: AppBar(
         leading: IconButton(
           onPressed: () {
+            debugPrint('${widget.latStart}');
+            debugPrint('${widget.longStart}');
+            debugPrint('${widget.latEnd}');
+            debugPrint('${widget.longEnd}');
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return ExplorerPage(
+                  return SelectRoutePage(
                     firstLocation: widget.firstLocation,
                     secondLocation: widget.secondLocation,
                     startTime: widget.startTime,
                     endTime: widget.endTime,
-                    selectedIndex: widget.selectedIndex,
+                    selectedIconIndex: widget.selectedIconIndex,
+                    endDestinationChoice: widget.endDestinationChoice,
                     latStart: widget.latStart,
                     latEnd: widget.latEnd,
                     longStart: widget.longStart,
@@ -114,10 +121,10 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
           ),
         ),
         title: const Padding(
-          padding: EdgeInsets.only(left: 80.0),
+          padding: EdgeInsets.only(left: 100.0),
           child: Text(
-            "Track order",
-            style: TextStyle(color: Colors.black, fontSize: 16),
+            "Route",
+            style: TextStyle(color: Colors.black, fontSize: 20),
           ),
         ),
         backgroundColor: Colors.white,
@@ -131,7 +138,9 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
           Polyline(
             polylineId: const PolylineId("route"),
             points: polyLineCoordinates,
-          ),
+            color: Colors.black,
+            width: 6,
+          )
         },
         markers: {
           const Marker(

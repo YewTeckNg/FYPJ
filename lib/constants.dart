@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const String google_api_key = "AIzaSyAd4rEAQqf58fCJGABqW99teDP9BcuyN08";
+const String google_api_key = "AIzaSyCMx38Wj5gSP0gD4sJqri0CUjFUg9tFeeY";
 
 const String search_apiKey = "AIzaSyAHxjByJNxEhDmn3Dm1wE1Go0IX2MHZ2pg";
 

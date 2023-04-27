@@ -1,9 +1,10 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
-import 'package:project/pages/main/explorer/explorermap.dart';
-import 'package:project/pages/main/explorer/searchlocation2.dart';
 import 'package:project/pages/main/explorer/searchlocation1.dart';
+import 'package:project/pages/main/explorer/selectroute.dart';
 import 'package:project/pages/main/profile.dart';
+
+import 'choiceForEnd.dart';
 
 class ExplorerPage extends StatefulWidget {
   String firstLocation;
@@ -14,7 +15,9 @@ class ExplorerPage extends StatefulWidget {
 
   TimeOfDay endTime;
 
-  int selectedIndex;
+  int selectedIconIndex;
+
+  int endDestinationChoice;
 
   double latStart;
 
@@ -30,7 +33,8 @@ class ExplorerPage extends StatefulWidget {
     required this.secondLocation,
     required this.startTime,
     required this.endTime,
-    required this.selectedIndex,
+    required this.selectedIconIndex,
+    required this.endDestinationChoice,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -44,7 +48,7 @@ class ExplorerPage extends StatefulWidget {
 class _ExplorerPageState extends State<ExplorerPage> {
   int pageIndex = 0;
 
-  // int selectedIndex = -1;
+  // int selectedIconIndex = -1;
 
   int index = 1;
   int index2 = 2;
@@ -89,6 +93,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
   int nowSec = 0;
   int endSec = 0;
   int previousSec = 0;
+  int diffSec = 0;
   final formKey = GlobalKey<FormState>();
 
   @override
@@ -207,7 +212,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
-                              selectedIndex: widget.selectedIndex,
+                              selectedIconIndex: widget.selectedIconIndex,
+                              endDestinationChoice: widget.endDestinationChoice,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -235,6 +241,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         Padding(
                           padding: const EdgeInsets.only(right: 42),
                           child: SizedBox(
+                            // color: Colors.amber,
                             height: 60,
                             width: 205,
                             child: Padding(
@@ -302,12 +309,13 @@ class _ExplorerPageState extends State<ExplorerPage> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return SearchLocationPage2(
+                            return ChoiceForEndPage(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
-                              selectedIndex: widget.selectedIndex,
+                              selectedIconIndex: widget.selectedIconIndex,
+                              endDestinationChoice: widget.endDestinationChoice,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -485,7 +493,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         InkWell(
                           onTap: () {
                             setState(() {
-                              widget.selectedIndex = index;
+                              widget.selectedIconIndex = index;
                             });
                           },
                           child: Padding(
@@ -495,7 +503,127 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               width: 60,
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(30),
-                                color: widget.selectedIndex == index
+                                color: widget.selectedIconIndex == index
+                                    ? Colors.red
+                                    : Colors.grey.shade200,
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 17),
+                                    child: widget.selectedIconIndex == index
+                                        ? const Icon(
+                                            Icons.directions_walk,
+                                            size: 25,
+                                            color: Colors.white,
+                                          )
+                                        : const Icon(
+                                            Icons.directions_walk,
+                                            size: 25,
+                                            color: Colors.black,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              widget.selectedIconIndex = index2;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 25, bottom: 25, left: 5, right: 5),
+                            child: Container(
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: widget.selectedIconIndex == index2
+                                    ? Colors.red
+                                    : Colors.grey.shade200,
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 18),
+                                    child: widget.selectedIconIndex == index2
+                                        ? const Icon(
+                                            Icons.directions_car,
+                                            size: 25,
+                                            color: Colors.white,
+                                          )
+                                        : const Icon(
+                                            Icons.directions_car,
+                                            size: 25,
+                                            color: Colors.black,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            setState(() {
+                              widget.selectedIconIndex = index3;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 25, bottom: 25, left: 5, right: 5),
+                            child: Container(
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: widget.selectedIconIndex == 3
+                                    ? Colors.red
+                                    : Colors.grey.shade200,
+                              ),
+                              child: Row(
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(left: 18),
+                                    child: widget.selectedIconIndex == index3
+                                        ? const Icon(
+                                            Icons.directions_bike,
+                                            size: 25,
+                                            color: Colors.white,
+                                          )
+                                        : const Icon(
+                                            Icons.directions_bike,
+                                            size: 25,
+                                            color: Colors.black,
+                                          ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            debugPrint('Hi new line');
+                            debugPrint('Lat Start: ${widget.latStart}');
+                            debugPrint('Long Start: ${widget.longStart}');
+
+                            debugPrint('Lat End: ${widget.latEnd}');
+                            debugPrint('Long End: ${widget.longEnd}');
+                            setState(() {
+                              widget.selectedIconIndex = index4;
+                            });
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(
+                                top: 25, bottom: 25, left: 5, right: 5),
+                            child: Container(
+                              width: 60,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(30),
+                                color: widget.selectedIconIndex == index4
                                     ? Colors.red
                                     : Colors.grey.shade200,
                               ),
@@ -508,7 +636,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                       //   size: 25,
                                       //   color: Colors.black,
                                       // ),
-                                      child: widget.selectedIndex == index
+
+                                      child: widget.selectedIconIndex == index4
                                           ? Image.asset(
                                               'assets/public-transport.jpg',
                                               height: 35,
@@ -521,118 +650,6 @@ class _ExplorerPageState extends State<ExplorerPage> {
                                               width: 35,
                                               color: Colors.black,
                                             ))
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              widget.selectedIndex = index2;
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 25, bottom: 25, left: 5, right: 5),
-                            child: Container(
-                              width: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: widget.selectedIndex == index2
-                                    ? Colors.red
-                                    : Colors.grey.shade200,
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.only(left: 18),
-                                      child: widget.selectedIndex == index2
-                                          ? const Icon(
-                                              Icons.directions_car,
-                                              size: 25,
-                                              color: Colors.white,
-                                            )
-                                          : const Icon(
-                                              Icons.directions_car,
-                                              size: 25,
-                                              color: Colors.black,
-                                            )),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              widget.selectedIndex = index3;
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 25, bottom: 25, left: 5, right: 5),
-                            child: Container(
-                              width: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: widget.selectedIndex == 3
-                                    ? Colors.red
-                                    : Colors.grey.shade200,
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                      padding: const EdgeInsets.only(left: 18),
-                                      child: widget.selectedIndex == 3
-                                          ? const Icon(
-                                              Icons.directions_walk,
-                                              size: 25,
-                                              color: Colors.white,
-                                            )
-                                          : const Icon(
-                                              Icons.directions_walk,
-                                              size: 25,
-                                              color: Colors.black,
-                                            )),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            setState(() {
-                              widget.selectedIndex = index4;
-                            });
-                          },
-                          child: Padding(
-                            padding: const EdgeInsets.only(
-                                top: 25, bottom: 25, left: 5, right: 5),
-                            child: Container(
-                              width: 60,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(30),
-                                color: widget.selectedIndex == index4
-                                    ? Colors.red
-                                    : Colors.grey.shade200,
-                              ),
-                              child: Row(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 18),
-                                    child: widget.selectedIndex == index4
-                                        ? const Icon(
-                                            Icons.directions_bike,
-                                            size: 25,
-                                            color: Colors.white,
-                                          )
-                                        : const Icon(
-                                            Icons.directions_bike,
-                                            size: 25,
-                                            color: Colors.black,
-                                          ),
-                                  ),
                                 ],
                               ),
                             ),
@@ -656,30 +673,32 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         (widget.endTime.hour * 60 + widget.endTime.minute) * 60;
                     previousSec =
                         (_timeOfDay3.hour * 60 + _timeOfDay3.minute) * 60;
-                    debugPrint('$nowSec');
-                    debugPrint('$previousSec');
-                    debugPrint('$nowSec');
+                    diffSec = endSec - nowSec;
+                    debugPrint('{\n "UID" : "Root"\n "TopK" : "3"\n "TopN" : "3"\n "Time" : "$diffSec"\n "VehicleMode" : "${widget.selectedIconIndex}"\n "Mode" : "${widget.endDestinationChoice}"\n "UserEndPoi" : "${widget.secondLocation}"\n "Latitude" : "${widget.latEnd}"\n "Longitude" : "${widget.longEnd}"\n}');
                     if (widget.firstLocation != 'Search destination' &&
                         widget.secondLocation != 'Search destination' &&
                         endSec > nowSec &&
                         nowSec >= previousSec &&
-                        (widget.selectedIndex == index ||
-                            widget.selectedIndex == index2 ||
-                            widget.selectedIndex == index3 ||
-                            widget.selectedIndex == index4)) {
-                      debugPrint('${widget.latStart}');
-                      debugPrint('${widget.longStart}');
-                      debugPrint('${widget.latEnd}');
-                      debugPrint('${widget.longEnd}');
+                        (widget.selectedIconIndex == index ||
+                            widget.selectedIconIndex == index2 ||
+                            widget.selectedIconIndex == index3 ||
+                            widget.selectedIconIndex == index4)) {
+                      // debugPrint('Lat Start: ${widget.latStart}');
+                      // debugPrint('Long Start: ${widget.longStart}');
+
+                      // debugPrint('Lat End: ${widget.latEnd}');
+                      // debugPrint('Long End: ${widget.longEnd}');
+
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return ExplorerMapPage(
+                            return SelectRoutePage(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
-                              selectedIndex: widget.selectedIndex,
+                              selectedIconIndex: widget.selectedIconIndex,
+                              endDestinationChoice: widget.endDestinationChoice,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -698,10 +717,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         showTopSnackBar3(context);
                       } else if (nowSec < previousSec) {
                         showTopSnackBar4(context);
-                      } else if (!(widget.selectedIndex == index ||
-                          widget.selectedIndex == index2 ||
-                          widget.selectedIndex == index3 ||
-                          widget.selectedIndex == index4)) {
+                      } else if (!(widget.selectedIconIndex == index ||
+                          widget.selectedIconIndex == index2 ||
+                          widget.selectedIconIndex == index3 ||
+                          widget.selectedIconIndex == index4)) {
                         showTopSnackBar5(context);
                       }
                     }
@@ -718,7 +737,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                   ),
                 ),
                 child: const Text(
-                  'Create trip',
+                  'Create Trip',
                   style: TextStyle(fontSize: 20),
                 ),
               ),
@@ -831,4 +850,24 @@ class _ExplorerPageState extends State<ExplorerPage> {
         barBlur: 20,
         backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
+
+      
+}
+
+class TravelInfo {
+  final String name;
+  final String email;
+
+  TravelInfo(this.name, this.email);
+
+  TravelInfo.fromJson(Map<String, dynamic> json)
+      : name = json['name'],
+        email = json['email'];
+
+  Map<String, dynamic> toJson() => {
+        'name': name,
+        'email': email,
+      };
+
+  
 }
