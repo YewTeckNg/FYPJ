@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_maps_webservice/places.dart';
+import 'package:project/pages/main/explorer/choiceForEnd.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
 
 import '../../../components/location_list_tile.dart';
@@ -18,7 +19,9 @@ class SearchLocationPage2 extends StatefulWidget {
 
   TimeOfDay endTime;
 
-  int selectedIndex;
+  int selectedIconIndex;
+
+  int endDestinationChoice;
 
   double latStart;
 
@@ -34,7 +37,8 @@ class SearchLocationPage2 extends StatefulWidget {
     required this.secondLocation,
     required this.startTime,
     required this.endTime,
-    required this.selectedIndex,
+    required this.selectedIconIndex,
+    required this.endDestinationChoice,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -89,12 +93,13 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
-                            return ExplorerPage(
+                            return ChoiceForEndPage(
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
                               endTime: widget.endTime,
-                              selectedIndex: widget.selectedIndex,
+                              selectedIconIndex: widget.selectedIconIndex,
+                              endDestinationChoice: widget.endDestinationChoice,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -111,9 +116,9 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                   ),
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(left: 65),
+                  padding: EdgeInsets.only(left: 45),
                   child: Text(
-                    "Your starting location",
+                    "Your end destination",
                     style: TextStyle(
                         color: textColorLightTheme,
                         fontSize: 20,
@@ -157,7 +162,7 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                     textInputAction: TextInputAction.search,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: "Search your location",
+                      hintText: "Search your end destination",
                       prefixIcon: Padding(
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: SvgPicture.asset(
@@ -188,11 +193,14 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                         secondLocation: 'Nanyang Polytechnic',
                         startTime: widget.startTime,
                         endTime: widget.endTime,
-                        selectedIndex: widget.selectedIndex,
+                        selectedIconIndex: widget.selectedIconIndex,
+                        endDestinationChoice: widget.endDestinationChoice,
+                        // start coords
                         latStart: widget.latStart,
-                        latEnd: widget.latEnd,
                         longStart: widget.longStart,
-                        longEnd: widget.longEnd,
+                        // end coords
+                        latEnd: 1.3800,
+                        longEnd: 103.8489,
                       );
                     },
                   ),
@@ -230,6 +238,9 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                   double? lat2 = detail.result.geometry?.location.lat;
                   double? lng2 = detail.result.geometry?.location.lng;
 
+                  print('$lat2');
+                  print('$lng2');
+
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
@@ -238,10 +249,13 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                           secondLocation: placePredictions[index].description!,
                           startTime: widget.startTime,
                           endTime: widget.endTime,
-                          selectedIndex: widget.selectedIndex,
+                          selectedIconIndex: widget.selectedIconIndex,
+                          endDestinationChoice: widget.endDestinationChoice,
+                          // start coords
                           latStart: widget.latStart,
-                          latEnd: widget.latEnd,
-                          longStart: lat2!,
+                          longStart: widget.longStart,
+                          // end coords
+                          latEnd: lat2!,
                           longEnd: lng2!,
                         );
                       },

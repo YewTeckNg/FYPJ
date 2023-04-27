@@ -44,7 +44,7 @@ class LandingPage extends StatelessWidget {
               // Image.asset(
               //   'assets/rocket-launch.PNG',
               //   height: 250,
-              //   width: 250,
+              //   width: 250,  
               // ),
               const SizedBox(height: 225.0),
               ElevatedButton(
