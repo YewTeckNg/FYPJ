@@ -236,7 +236,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                 Padding(
                                   padding: const EdgeInsets.only(left: 12),
                                   child: SizedBox(
-                                    height: 32,
+                                    height: 40,
                                     width: 150,
                                     child: Padding(
                                       padding: const EdgeInsets.only(top: 9.0),
@@ -251,7 +251,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 13),
+                                  padding: const EdgeInsets.only(left: 13, bottom: 8),
                                   child: Container(
                                     height: 20,
                                     width: 3,
@@ -259,7 +259,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                   ),
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 15),
+                                  padding: const EdgeInsets.only(left: 15, bottom: 8),
                                   child: Text(
                                     widget.endTime.format(context).toString(),
                                     style: TextStyle(
