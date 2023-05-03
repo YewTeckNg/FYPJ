@@ -112,7 +112,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
         child: Column(
           children: [
             Padding(
-              padding: const EdgeInsets.only(top: 70.0, left: 15, right: 30),
+              padding: const EdgeInsets.only(top: 55.0, left: 15, right: 30),
               child: Row(
                 children: [
                   IconButton(
@@ -239,13 +239,13 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           color: Colors.grey.shade800,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 42),
+                          padding: const EdgeInsets.only(),
                           child: SizedBox(
                             // color: Colors.amber,
-                            height: 60,
-                            width: 205,
+                            height: 40,
+                            width: 245,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 22, left: 24),
+                              padding: const EdgeInsets.only(top: 12, left: 5, bottom: 10),
                               child: Text(
                                 widget.firstLocation,
                                 style: TextStyle(
@@ -257,15 +257,18 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                widget.firstLocation = 'Search destination';
-                              });
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.grey.shade600,
+                          child: Container(
+                            // color: Colors.red,
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.firstLocation = 'Search destination';
+                                });
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.grey.shade600,
+                              ),
                             ),
                           ),
                         )
@@ -341,12 +344,12 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           color: Colors.grey.shade800,
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(right: 42),
+                          padding: const EdgeInsets.only(),
                           child: SizedBox(
-                            height: 60,
-                            width: 205,
+                            height: 40,
+                            width: 245,
                             child: Padding(
-                              padding: const EdgeInsets.only(top: 22, left: 24),
+                              padding: const EdgeInsets.only(top: 12, left: 5, bottom: 10),
                               child: Text(
                                 widget.secondLocation,
                                 style: TextStyle(
@@ -358,15 +361,17 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(),
-                          child: IconButton(
-                            onPressed: () {
-                              setState(() {
-                                widget.secondLocation = 'Search destination';
-                              });
-                            },
-                            icon: Icon(
-                              Icons.close,
-                              color: Colors.grey.shade600,
+                          child: Container(
+                            child: IconButton(
+                              onPressed: () {
+                                setState(() {
+                                  widget.secondLocation = 'Search destination';
+                                });
+                              },
+                              icon: Icon(
+                                Icons.close,
+                                color: Colors.grey.shade600,
+                              ),
                             ),
                           ),
                         )

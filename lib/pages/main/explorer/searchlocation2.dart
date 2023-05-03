@@ -83,7 +83,7 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
       body: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 28, bottom: 4),
+            padding: const EdgeInsets.only(top: 50, bottom: 4),
             child: Row(
               children: [
                 Padding(
