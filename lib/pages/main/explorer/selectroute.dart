@@ -118,7 +118,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                 child: Row(
                   children: [
                     Padding(
-                      padding: const EdgeInsets.only(left: 30),
+                      padding: const EdgeInsets.only(left: 20),
                       child: Column(
                         children: [
                           const Padding(
@@ -166,7 +166,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                               padding:
                                   const EdgeInsets.only(left: 10, right: 15),
                               child: SizedBox(
-                                height: 32,
+                                height: 40,
                                 width: 150,
                                 child: Padding(
                                   padding: const EdgeInsets.only(top: 9.0),
@@ -200,10 +200,10 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                           ],
                         ),
                         Padding(
-                          padding: const EdgeInsets.only(top: 13, left: 8),
+                          padding: const EdgeInsets.only(top: 5, left: 3),
                           child: Container(
                             height: 3,
-                            width: 230,
+                            width: 240,
                             decoration: BoxDecoration(
                               color: Colors.grey.shade300,
                               boxShadow: [
@@ -423,7 +423,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 15),
                                           child: Text(
-                                            'Walk straight to Ang Mo Kio Ave 5 (150m) ',
+                                            'Walk straight to ___ (??m) ',
                                             style: TextStyle(
                                               color: Colors.grey.shade500,
                                               fontWeight: FontWeight.w600,
@@ -539,7 +539,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 15),
                                           child: Text(
-                                            'Walk straight to Ang Mo Kio Ave 3 (300m) ',
+                                            'Walk straight to ___ (??m) ',
                                             style: TextStyle(
                                               color: Colors.grey.shade500,
                                               fontWeight: FontWeight.w600,
@@ -655,7 +655,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                         Padding(
                                           padding: const EdgeInsets.only(left: 15),
                                           child: Text(
-                                            'Walk straight to GrassRoots Club (200m) ',
+                                            'Walk straight to ___ (??m) ',
                                             style: TextStyle(
                                               color: Colors.grey.shade500,
                                               fontWeight: FontWeight.w600,
