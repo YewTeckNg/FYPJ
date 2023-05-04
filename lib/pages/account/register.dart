@@ -509,6 +509,6 @@ class _RegisterPageState extends State<RegisterPage> {
         dismissDirection: FlushbarDismissDirection.HORIZONTAL,
         duration: const Duration(seconds: 2),
         barBlur: 20,
-        backgroundColor: Colors.black.withOpacity(0.7),
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
       )..show(context);
 }

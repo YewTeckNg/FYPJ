@@ -246,8 +246,12 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
 
                   double? lat1 = detail.result.geometry?.location.lat;
                   double? lng1 = detail.result.geometry?.location.lng;
+                  // var address = await 
+
                   print('$lat1');
                   print('$lng1');
+                  print('${placePredictions[index].description}');
+                  
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {

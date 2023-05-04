@@ -143,7 +143,7 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
             polylineId: const PolylineId("route"),
             points: polyLineCoordinates,
             color: Colors.black,
-            width: 6,
+            width: 5,
           )
         },
         markers: {
@@ -160,6 +160,7 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
         },
       ),
       floatingActionButton: FloatingActionButton.extended(
+        
         onPressed: () {
           showDialog(
             context: context,
@@ -298,6 +299,8 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
         icon: const Icon(Icons.map),
         backgroundColor: Colors.red.shade600,
       ),
+
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
 }
