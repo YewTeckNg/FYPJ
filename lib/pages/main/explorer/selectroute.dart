@@ -17,6 +17,10 @@ class SelectRoutePage extends StatefulWidget {
 
   int endDestinationChoice;
 
+  int topK;
+
+  int topN;
+
   double latStart;
 
   double longStart;
@@ -33,6 +37,8 @@ class SelectRoutePage extends StatefulWidget {
     required this.endTime,
     required this.selectedIconIndex,
     required this.endDestinationChoice,
+    required this.topK,
+    required this.topN,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -58,6 +64,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                     padding: const EdgeInsets.only(left: 14),
                     child: IconButton(
                       onPressed: () {
+                        print('numbner of topk: ${widget.topK}');
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
@@ -69,6 +76,8 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                 selectedIconIndex: widget.selectedIconIndex,
                                 endDestinationChoice:
                                     widget.endDestinationChoice,
+                                topK: widget.topK,
+                                topN: widget.topN,
                                 latStart: widget.latStart,
                                 latEnd: widget.latEnd,
                                 longStart: widget.longStart,
@@ -234,7 +243,8 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                             Row(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 12),
+                                  padding: const EdgeInsets.only(
+                                      left: 10, right: 15),
                                   child: SizedBox(
                                     height: 40,
                                     width: 150,
@@ -250,16 +260,15 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                     ),
                                   ),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.only(left: 13, bottom: 8),
-                                  child: Container(
-                                    height: 20,
-                                    width: 3,
-                                    color: Colors.grey.shade300,
-                                  ),
+                                Container(
+                                  height: 20,
+                                  width: 3,
+                                  color: Colors.grey.shade300,
                                 ),
                                 Padding(
-                                  padding: const EdgeInsets.only(left: 15, bottom: 8),
+                                  padding: const EdgeInsets.only(
+                                    left: 15,
+                                  ),
                                   child: Text(
                                     widget.endTime.format(context).toString(),
                                     style: TextStyle(
@@ -284,7 +293,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
 
             // routes
             Container(
-              height: 490,
+              height: 780,
               width: 400,
               decoration: BoxDecoration(
                 color: Colors.white,
@@ -307,384 +316,154 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                   const Padding(
                     padding: EdgeInsets.only(top: 20),
                     child: Text(
-                      'Here are the three best generated',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                      ),
+                      'Here are the best generated',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   const Padding(
                     padding: EdgeInsets.only(bottom: 10),
                     child: Text(
                       'routes just for you:',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500
-                      ),
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                     ),
                   ),
                   SizedBox(
-                    height: 422,
+                    height: 700,
                     // color: Colors.black,
                     child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      // mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.only(left: 20, right: 20),
-                          // route 1
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ExplorerMapPage(
-                                      firstLocation: widget.firstLocation,
-                                      secondLocation: widget.secondLocation,
-                                      startTime: widget.startTime,
-                                      endTime: widget.endTime,
-                                      selectedIconIndex: widget.selectedIconIndex,
-                                      endDestinationChoice:
-                                          widget.endDestinationChoice,
-                                      latStart: widget.latStart,
-                                      latEnd: widget.latEnd,
-                                      longStart: widget.longStart,
-                                      longEnd: widget.longEnd,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 120,
-                              width: 400,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 5),
+                        for (int i = 0; i < widget.topN; i++)
+                          Padding(
+                            padding: const EdgeInsets.only(left: 20, right: 20, bottom: 20),
+                            // route 1
+                            child: InkWell(
+                              onTap: () {
+                                Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                    builder: (BuildContext context) {
+                                      return ExplorerMapPage(
+                                        firstLocation: widget.firstLocation,
+                                        secondLocation: widget.secondLocation,
+                                        startTime: widget.startTime,
+                                        endTime: widget.endTime,
+                                        selectedIconIndex:
+                                            widget.selectedIconIndex,
+                                        endDestinationChoice:
+                                            widget.endDestinationChoice,
+                                        topK: widget.topK,
+                                        topN: widget.topN,
+                                        latStart: widget.latStart,
+                                        latEnd: widget.latEnd,
+                                        longStart: widget.longStart,
+                                        longEnd: widget.longEnd,
+                                      );
+                                    },
                                   ),
-                                ],
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(27),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20, top: 20),
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'Route 1 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                        // Text(
-                                        //   '(RECOMMENDED)',
-                                        //   style: TextStyle(
-                                        //     fontWeight: FontWeight.w500,
-                                        //     color: Colors.grey.shade600,
-                                        //     fontSize: 15,
-                                        //   ),
-                                        // ),
-                                      ],
+                                );
+                              },
+                              child: Container(
+                                height: 120,
+                                width: 400,
+                                decoration: BoxDecoration(
+                                  color: Colors.white,
+                                  boxShadow: [
+                                    BoxShadow(
+                                      color: Colors.grey.withOpacity(0.5),
+                                      spreadRadius: 2,
+                                      blurRadius: 7,
+                                      offset: const Offset(0, 5),
                                     ),
+                                  ],
+                                  borderRadius: const BorderRadius.all(
+                                    Radius.circular(27),
                                   ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 8.0, left: 15),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.directions_walk,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                        Text(
-                                          '50 min ',
-                                          style: TextStyle(
+                                ),
+                                child: Column(
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          left: 20, top: 20),
+                                      child: Row(
+                                        children:  [
+                                          Text(
+                                            'Route ${i+1} ',
+                                            style: const TextStyle(
+                                              fontWeight: FontWeight.w500,
+                                              color: Colors.grey,
+                                              fontSize: 16,
+                                            ),
+                                          ),
+                                          // Text(
+                                          //   '(RECOMMENDED)',
+                                          //   style: TextStyle(
+                                          //     fontWeight: FontWeight.w500,
+                                          //     color: Colors.grey.shade600,
+                                          //     fontSize: 15,
+                                          //   ),
+                                          // ),
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(
+                                          top: 8.0, left: 15),
+                                      child: Row(
+                                        children: [
+                                          Icon(
+                                            Icons.directions_walk,
                                             color: Colors.grey.shade600,
-                                            fontWeight: FontWeight.w600,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            'Walk straight to ___ (??m) ',
+                                          Text(
+                                            '50 min ',
                                             style: TextStyle(
-                                              color: Colors.grey.shade500,
+                                              color: Colors.grey.shade600,
                                               fontWeight: FontWeight.w600,
                                             ),
                                           ),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          color: Colors.black,
-                                          size: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(),
-                                          child: Text(
-                                            ' Turn ...',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w600,
+                                        ],
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 10),
+                                      child: Row(
+                                        children: [
+                                          Padding(
+                                            padding:
+                                                const EdgeInsets.only(left: 15),
+                                            child: Text(
+                                              'Walk straight to ___ (??m) ',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade500,
+                                                fontWeight: FontWeight.w600,
+                                              ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                          const Icon(
+                                            Icons.arrow_forward_ios_outlined,
+                                            color: Colors.black,
+                                            size: 10,
+                                          ),
+                                          Padding(
+                                            padding: const EdgeInsets.only(),
+                                            child: Text(
+                                              ' Turn ...',
+                                              style: TextStyle(
+                                                color: Colors.grey.shade500,
+                                                fontWeight: FontWeight.w600,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 20, right: 20),
-                          // route 2
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ExplorerMapPage(
-                                      firstLocation: widget.firstLocation,
-                                      secondLocation: widget.secondLocation,
-                                      startTime: widget.startTime,
-                                      endTime: widget.endTime,
-                                      selectedIconIndex: widget.selectedIconIndex,
-                                      endDestinationChoice:
-                                          widget.endDestinationChoice,
-                                      latStart: widget.latStart,
-                                      latEnd: widget.latEnd,
-                                      longStart: widget.longStart,
-                                      longEnd: widget.longEnd,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 120,
-                              width: 400,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 5),
-                                  ),
-                                ],
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(27),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20, top: 20),
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'Route 2 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 8.0, left: 15),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.directions_walk,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                        Text(
-                                          '57 min ',
-                                          style: TextStyle(
-                                            color: Colors.grey.shade600,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            'Walk straight to ___ (??m) ',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          color: Colors.black,
-                                          size: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(),
-                                          child: Text(
-                                            ' Turn ...',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                        Padding(
-                          padding:
-                              const EdgeInsets.only(left: 20, right: 20),
-                          // route 3
-                          child: InkWell(
-                            onTap: () {
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (BuildContext context) {
-                                    return ExplorerMapPage(
-                                      firstLocation: widget.firstLocation,
-                                      secondLocation: widget.secondLocation,
-                                      startTime: widget.startTime,
-                                      endTime: widget.endTime,
-                                      selectedIconIndex: widget.selectedIconIndex,
-                                      endDestinationChoice:
-                                          widget.endDestinationChoice,
-                                      latStart: widget.latStart,
-                                      latEnd: widget.latEnd,
-                                      longStart: widget.longStart,
-                                      longEnd: widget.longEnd,
-                                    );
-                                  },
-                                ),
-                              );
-                            },
-                            child: Container(
-                              height: 120,
-                              width: 400,
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 7,
-                                    offset: const Offset(0, 5),
-                                  ),
-                                ],
-                                borderRadius: const BorderRadius.all(
-                                  Radius.circular(27),
-                                ),
-                              ),
-                              child: Column(
-                                children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 20, top: 20),
-                                    child: Row(
-                                      children: const [
-                                        Text(
-                                          'Route 3 ',
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.grey,
-                                            fontSize: 16,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding:
-                                        const EdgeInsets.only(top: 8.0, left: 15),
-                                    child: Row(
-                                      children: [
-                                        Icon(
-                                          Icons.directions_walk,
-                                          color: Colors.grey.shade600,
-                                        ),
-                                        Text(
-                                          '52 min ',
-                                          style: TextStyle(
-                                            color: Colors.grey.shade600,
-                                            fontWeight: FontWeight.w600,
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 10),
-                                    child: Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.only(left: 15),
-                                          child: Text(
-                                            'Walk straight to ___ (??m) ',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                        const Icon(
-                                          Icons.arrow_forward_ios_outlined,
-                                          color: Colors.black,
-                                          size: 10,
-                                        ),
-                                        Padding(
-                                          padding: const EdgeInsets.only(),
-                                          child: Text(
-                                            ' Turn ...',
-                                            style: TextStyle(
-                                              color: Colors.grey.shade500,
-                                              fontWeight: FontWeight.w600,
-                                            ),
-                                          ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
                       ],
                     ),
                   ),

@@ -219,6 +219,7 @@ class _LoginPageState extends State<LoginPage> {
                     debugPrint(name.text);
                     if (name.text.toString() == 'Root' &&
                         password.text.toString() == 'P@ssw0rd') {
+
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {
@@ -229,6 +230,8 @@ class _LoginPageState extends State<LoginPage> {
                               endTime: endTime,
                               selectedIconIndex: -1,
                               endDestinationChoice: 0,
+                              topK: 2,
+                              topN: 2,
                               latStart: 0,
                               latEnd: 0,
                               longStart: 0,

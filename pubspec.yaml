@@ -53,6 +53,9 @@ dependencies:
   json_annotation: ^4.8.0
   flutter_rating_bar: ^4.0.1
   awesome_dialog: ^3.0.2
+  hover_effect: ^0.6.0
+  # flutter_python: ^0.2.2
+  # flutter_qpython: ^0.2.0
   
 dev_dependencies:
   flutter_test:

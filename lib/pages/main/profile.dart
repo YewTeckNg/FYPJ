@@ -339,6 +339,8 @@ class _ProfilePageState extends State<ProfilePage> {
                                 endTime: endTime,
                                 selectedIconIndex: -1,
                                 endDestinationChoice: 0,
+                                topK: 0,
+                                topN: 0,
                                 latStart: 0,
                                 latEnd: 0,
                                 longStart: 0,

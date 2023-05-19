@@ -18,8 +18,8 @@ class CurrentLocationPage extends StatefulWidget {
 class CurrentLocationPageState extends State<CurrentLocationPage> {
  final Completer<GoogleMapController> _controller = Completer();
 
-  static const LatLng sourceLocation = LatLng(1.37995,103.8489487);
-  static const LatLng destination = LatLng(1.37995,103.8489487);
+  static const LatLng sourceLocation = LatLng(1.2931, 103.852);
+  static const LatLng destination = LatLng(1.2931, 103.852);
 
   List<LatLng> polyLineCoordinates = [];
 

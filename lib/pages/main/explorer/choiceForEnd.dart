@@ -17,6 +17,10 @@ class ChoiceForEndPage extends StatefulWidget {
 
   int endDestinationChoice;
 
+  int topK;
+
+  int topN;
+
   double latStart;
 
   double longStart;
@@ -33,6 +37,8 @@ class ChoiceForEndPage extends StatefulWidget {
     required this.endTime,
     required this.selectedIconIndex,
     required this.endDestinationChoice,
+    required this.topK,
+    required this.topN,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -67,6 +73,8 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                               endTime: widget.endTime,
                               selectedIconIndex: widget.selectedIconIndex,
                               endDestinationChoice: widget.endDestinationChoice,
+                              topK: widget.topK,
+                              topN: widget.topN,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -133,6 +141,8 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                         endTime: widget.endTime,
                         selectedIconIndex: widget.selectedIconIndex,
                         endDestinationChoice: 1,
+                        topK: widget.topK,
+                        topN: widget.topN,
                         latStart: widget.latStart,
                         latEnd: widget.latStart,
                         longStart: widget.longStart,
@@ -187,6 +197,8 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                         endTime: widget.endTime,
                         selectedIconIndex: widget.selectedIconIndex,
                         endDestinationChoice: 2,
+                        topK: widget.topK,
+                        topN: widget.topN,
                         latStart: widget.latStart,
                         latEnd: widget.latEnd,
                         longStart: widget.longStart,
@@ -241,6 +253,8 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                         endTime: widget.endTime,
                         selectedIconIndex: widget.selectedIconIndex,
                         endDestinationChoice: 3,
+                        topK: widget.topK,
+                        topN: widget.topN,
                         latStart: widget.latStart,
                         latEnd: widget.latEnd,
                         longStart: widget.longStart,
@@ -275,7 +289,6 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
           //   width: 50,
           //   color: Colors.black,
           // )
-          
         ],
       ),
     );

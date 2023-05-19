@@ -63,6 +63,8 @@ class _IntroPagesState extends State<IntroPages> {
                         padding: const EdgeInsets.only(right: 40),
                         child: ElevatedButton(
                           onPressed: () {
+                            // final qpython = FlutterQPython();
+
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
@@ -73,6 +75,8 @@ class _IntroPagesState extends State<IntroPages> {
                                     endTime: endTime,
                                     selectedIconIndex: -1,
                                     endDestinationChoice: 0,
+                                    topK: 2,
+                                    topN: 2,
                                     latStart: 0,
                                     latEnd: 0,
                                     longStart: 0,
