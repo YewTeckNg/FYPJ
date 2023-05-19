@@ -448,6 +448,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.2.0"
+  hover_effect:
+    dependency: "direct main"
+    description:
+      name: hover_effect
+      sha256: cb5666a5be711e7c3a69dead7e9e9aa163c6a7bf19fbad771c8f32da6cd68558
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.6.0"
   http:
     dependency: "direct main"
     description:

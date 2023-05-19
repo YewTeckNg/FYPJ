@@ -22,6 +22,10 @@ class SearchLocationPage1 extends StatefulWidget {
 
   int endDestinationChoice;
 
+  int topK;
+
+  int topN;
+
   double latStart;
 
   double longStart;
@@ -38,6 +42,8 @@ class SearchLocationPage1 extends StatefulWidget {
     required this.endTime,
     required this.selectedIconIndex,
     required this.endDestinationChoice,
+    required this.topK,
+    required this.topN,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -99,6 +105,8 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                               endTime: widget.endTime,
                               selectedIconIndex: widget.selectedIconIndex,
                               endDestinationChoice: widget.endDestinationChoice,
+                              topK: widget.topK,
+                              topN: widget.topN,
                               latStart: widget.latStart,
                               latEnd: widget.latEnd,
                               longStart: widget.longStart,
@@ -189,15 +197,17 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                   MaterialPageRoute(
                     builder: (BuildContext context) {
                       return ExplorerPage(
-                        firstLocation: 'Nanyang Polytechnic',
+                        firstLocation: 'City Hall',
                         secondLocation: widget.secondLocation,
                         startTime: widget.startTime,
                         endTime: widget.endTime,
                         selectedIconIndex: widget.selectedIconIndex,
                         endDestinationChoice: widget.endDestinationChoice,
+                        topK: widget.topK,
+                        topN: widget.topN,
                         // start coords
-                        latStart: 1.3800,
-                        longStart: 103.8489,
+                        latStart: 1.2931,
+                        longStart: 103.852,
                         // end coords
                         latEnd: widget.latEnd,
                         longEnd: widget.longEnd,
@@ -246,12 +256,12 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
 
                   double? lat1 = detail.result.geometry?.location.lat;
                   double? lng1 = detail.result.geometry?.location.lng;
-                  // var address = await 
+                  // var address = await
 
                   print('$lat1');
                   print('$lng1');
                   print('${placePredictions[index].description}');
-                  
+
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
@@ -262,6 +272,8 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                           endTime: widget.endTime,
                           selectedIconIndex: widget.selectedIconIndex,
                           endDestinationChoice: widget.endDestinationChoice,
+                          topK: widget.topK,
+                          topN: widget.topN,
                           // start coords
                           latStart: lat1!,
                           longStart: lng1!,

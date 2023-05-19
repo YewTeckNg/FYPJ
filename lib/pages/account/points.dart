@@ -175,6 +175,8 @@ class _PointsPageState extends State<PointsPage> {
                                 endTime: endTime,
                                 selectedIconIndex: -1,
                                 endDestinationChoice: 0,
+                                topK: 2,
+                                topN: 2,
                                 latStart: 0,
                                 latEnd: 0,
                                 longStart: 0,

@@ -18,6 +18,10 @@ class RatingExplorerPage extends StatefulWidget {
 
   int endDestinationChoice;
 
+  int topK;
+
+  int topN;
+
   double latStart;
 
   double longStart;
@@ -34,6 +38,8 @@ class RatingExplorerPage extends StatefulWidget {
     required this.endTime,
     required this.selectedIconIndex,
     required this.endDestinationChoice,
+    required this.topK,
+    required this.topN,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -82,6 +88,8 @@ class _RatingExplorerPageState extends State<RatingExplorerPage> {
                             endTime: widget.endTime,
                             selectedIconIndex: widget.selectedIconIndex,
                             endDestinationChoice: widget.endDestinationChoice,
+                            topK: widget.topK,
+                            topN: widget.topN,
                             latStart: widget.latStart,
                             latEnd: widget.latEnd,
                             longStart: widget.longStart,
@@ -171,6 +179,8 @@ class _RatingExplorerPageState extends State<RatingExplorerPage> {
                           endTime: widget.endTime,
                           selectedIconIndex: widget.selectedIconIndex,
                           endDestinationChoice: widget.endDestinationChoice,
+                          topK: widget.topK,
+                          topN: widget.topN,
                           latStart: widget.latStart,
                           latEnd: widget.latEnd,
                           longStart: widget.longStart,

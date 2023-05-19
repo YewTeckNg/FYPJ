@@ -24,6 +24,10 @@ class ExplorerMapPage extends StatefulWidget {
 
   int endDestinationChoice;
 
+  int topK;
+
+  int topN;
+
   double latStart;
 
   double longStart;
@@ -40,6 +44,8 @@ class ExplorerMapPage extends StatefulWidget {
     required this.endTime,
     required this.selectedIconIndex,
     required this.endDestinationChoice,
+    required this.topK,
+    required this.topN,
     required this.latStart,
     required this.latEnd,
     required this.longStart,
@@ -61,6 +67,9 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
   // static const LatLng destination = LatLng(1.3691149, 103.8454342);
 
   late LatLng sourceLocation = LatLng(widget.latStart, widget.longStart);
+  late LatLng POI1 = LatLng(widget.latStart, widget.longStart);
+  late LatLng POI2 = LatLng(widget.latStart, widget.longStart);
+  late LatLng POI3 = LatLng(widget.latStart, widget.longStart);
   late LatLng destination = LatLng(widget.latEnd, widget.longEnd);
 
   List<LatLng> polyLineCoordinates = [];
@@ -83,6 +92,13 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
       setState(() {});
     }
   }
+
+  // LatLng? hoverSpot;
+
+  // void setHoverSpot(LatLng? val) {
+  //   hoverSpot = val;
+  //   notifyListeners();
+  // }
 
   @override
   void initState() {
@@ -110,6 +126,8 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
                     endTime: widget.endTime,
                     selectedIconIndex: widget.selectedIconIndex,
                     endDestinationChoice: widget.endDestinationChoice,
+                    topK: widget.topK,
+                    topN: widget.topN,
                     latStart: widget.latStart,
                     latEnd: widget.latEnd,
                     longStart: widget.longStart,
@@ -124,43 +142,129 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
             color: Colors.black,
           ),
         ),
-        title: const Padding(
-          padding: EdgeInsets.only(left: 100.0),
-          child: Text(
-            "Route",
-            style: TextStyle(color: Colors.black, fontSize: 20),
+        title: Padding(
+          padding: const EdgeInsets.only(left: 95.0),
+          child: Row(
+            children: [
+              const Text(
+                "Route",
+                style: TextStyle(color: Colors.black, fontSize: 20),
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 108),
+                child: IconButton(
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return AlertDialog(
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(32.0),
+                            ),
+                          ),
+                          content: SizedBox(
+                            height: 240,
+                            width: 240,
+                            child: Column(
+                              children: [
+                                Row(
+                                  children: [
+                                    const Padding(
+                                      padding: EdgeInsets.only(left: 65.0),
+                                      child: Text(
+                                        'Instructions',
+                                        style: TextStyle(
+                                            fontSize: 20,
+                                            decoration:
+                                                TextDecoration.underline,
+                                            fontWeight: FontWeight.w700),
+                                      ),
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(left: 19),
+                                      child: IconButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        icon: const Icon(
+                                          Icons.close,
+                                          size: 35,
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                                const Text(
+                                  '1. The map shows your starting ',
+                                  style: TextStyle(fontSize: 17),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 167),
+                                  child: Text('point'),
+                                ),
+                                const Text(''),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 20.0),
+                                  child: Text(
+                                    '2. To increase map size, click',
+                                    style: TextStyle(fontSize: 17),
+                                  ),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(),
+                                  child: Text('on the "+" icon at the bottom'),
+                                ),
+                                const Padding(
+                                  padding: EdgeInsets.only(right: 68),
+                                  child: Text('right of the screen.'),
+                                ),
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                  icon: const Icon(Icons.info_outline_rounded),
+                  iconSize: 30,
+                  color: Colors.black,
+                ),
+              ),
+            ],
           ),
         ),
         backgroundColor: Colors.white,
       ),
-      body: GoogleMap(
-        initialCameraPosition: CameraPosition(
-          target: sourceLocation,
-          zoom: 14.5,
+      body: MouseRegion(
+        child: GoogleMap(
+          initialCameraPosition: CameraPosition(
+            target: sourceLocation,
+            zoom: 14.5,
+          ),
+          polylines: {
+            Polyline(
+              polylineId: const PolylineId("route"),
+              points: polyLineCoordinates,
+              color: Colors.black,
+              width: 5,
+            )
+          },
+          markers: {
+            Marker(
+              markerId: const MarkerId("source"),
+              position: sourceLocation,
+              // position: LatLng(widget.latStart, widget.longStart),
+            ),
+            Marker(
+              markerId: const MarkerId("destination"),
+              position: destination,
+              // position: LatLng(widget.latEnd, widget.longEnd),
+            ),
+          },
         ),
-        polylines: {
-          Polyline(
-            polylineId: const PolylineId("route"),
-            points: polyLineCoordinates,
-            color: Colors.black,
-            width: 5,
-          )
-        },
-        markers: {
-          Marker(
-            markerId: const MarkerId("source"),
-            position: sourceLocation,
-            // position: LatLng(widget.latStart, widget.longStart),
-          ),
-          Marker(
-            markerId: const MarkerId("destination"),
-            position: destination,
-            // position: LatLng(widget.latEnd, widget.longEnd),
-          ),
-        },
       ),
       floatingActionButton: FloatingActionButton.extended(
-        
         onPressed: () {
           showDialog(
             context: context,
@@ -264,6 +368,8 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
                                   endTime: TimeOfDay.now(),
                                   selectedIconIndex: -1,
                                   endDestinationChoice: 0,
+                                  topK: 0,
+                                  topN: 0,
                                   latStart: 0,
                                   latEnd: 0,
                                   longStart: 0,
@@ -299,7 +405,6 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
         icon: const Icon(Icons.map),
         backgroundColor: Colors.red.shade600,
       ),
-
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
     );
   }
