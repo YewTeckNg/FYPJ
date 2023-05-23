@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:project/pages/account/forgetpassword.dart';
 import 'package:project/pages/account/register.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
+import 'package:postgres/postgres.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -24,7 +25,7 @@ class _LoginPageState extends State<LoginPage> {
 
   String passwordvalue = '';
 
-  TextEditingController name = TextEditingController();
+  TextEditingController email = TextEditingController();
 
   TextEditingController password = TextEditingController();
 
@@ -34,6 +35,31 @@ class _LoginPageState extends State<LoginPage> {
 
   TimeOfDay endTime = TimeOfDay.now();
   final formKey = GlobalKey<FormState>();
+
+  Future<void> connectAndPerformOperations() async {
+    final connection = PostgreSQLConnection(
+      '20.198.133.115',
+      80,
+      'postgres',
+      username: 'admin',
+      password: 'admin',
+    );
+
+    try {
+      await connection.open();
+
+      // Read a row
+      final selectResult = await connection
+          .query('SELECT * FROM public.userprofile where "email" = "${email.text}"');
+      for (final row in selectResult) {
+        print('Read row: $row');
+      }
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      await connection.close();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
               Padding(
                 padding: const EdgeInsets.only(right: 50, left: 50),
                 child: TextFormField(
-                  controller: name,
+                  controller: email,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
@@ -216,10 +242,10 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    debugPrint(name.text);
-                    if (name.text.toString() == 'Root' &&
+                    debugPrint(email.text);
+                    if (email.text.toString() == 'Johnny@gmail.com' &&
                         password.text.toString() == 'P@ssw0rd') {
-
+                      connectAndPerformOperations();
                       Navigator.of(context).pushReplacement(
                         MaterialPageRoute(
                           builder: (BuildContext context) {

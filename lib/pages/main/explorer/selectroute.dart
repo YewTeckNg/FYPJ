@@ -64,7 +64,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                     padding: const EdgeInsets.only(left: 14),
                     child: IconButton(
                       onPressed: () {
-                        print('numbner of topk: ${widget.topK}');
+                        // print('numbner of topk: ${widget.topK}');
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
@@ -74,8 +74,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                 startTime: widget.startTime,
                                 endTime: widget.endTime,
                                 selectedIconIndex: widget.selectedIconIndex,
-                                endDestinationChoice:
-                                    widget.endDestinationChoice,
+                                endDestinationChoice: widget.endDestinationChoice,
                                 topK: widget.topK,
                                 topN: widget.topN,
                                 latStart: widget.latStart,
