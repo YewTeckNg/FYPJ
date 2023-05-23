@@ -119,7 +119,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
       'longuser': '1.3523531',
     };
 
-    String apiUrl = 'http://127.0.0.1:7687/getrecommendation';
+    String apiUrl = "http://127.0.0.1:8080/getrecommendation";
 
     http.post(Uri.parse(apiUrl), body: jsonData).then((response) {
       if (response.statusCode == 200) {
@@ -932,6 +932,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             showTopSnackBar5(context);
                           }
                         }
+                        
                       }
                     },
                     style: ElevatedButton.styleFrom(

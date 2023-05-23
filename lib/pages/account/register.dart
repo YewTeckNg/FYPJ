@@ -1,13 +1,18 @@
+import 'dart:math';
+
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:postgres/postgres.dart';
 import 'package:project/pages/account/login.dart';
-import '../intro_pages/intro_pages.dart';
 import 'package:email_validator/email_validator.dart';
 
 class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+  const RegisterPage({
+    super.key,
+  });
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -15,8 +20,6 @@ class RegisterPage extends StatefulWidget {
 
 class _RegisterPageState extends State<RegisterPage> {
   // use this controller to get what the user typed
-  final _emailController = TextEditingController();
-
   bool _secureText1 = true;
 
   final bool _secureText2 = true;
@@ -25,7 +28,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
   final formKey = GlobalKey<FormState>();
 
+  TextEditingController nameController = TextEditingController();
+
+  TextEditingController emailController = TextEditingController();
+
   TextEditingController dateController = TextEditingController();
+
+  TextEditingController mobilenumberController = TextEditingController();
 
   TextEditingController password = TextEditingController();
 
@@ -35,6 +44,83 @@ class _RegisterPageState extends State<RegisterPage> {
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   RegExp dateRegExp = RegExp(r'^(0[1-9]|[12][0-9]|3[01])[- /.]');
+
+  late DateTime birthDate;
+
+  String? UID;
+
+  String? _genderchoice;
+
+  Future<void> connectAndPerformOperations() async {
+    final connection = PostgreSQLConnection(
+      '20.198.133.115',
+      80,
+      'postgres',
+      username: 'admin',
+      password: 'admin',
+    );
+
+    try {
+      // RNG
+      int random1(int min, int max) {
+        return min + Random().nextInt(max - min);
+      }
+
+      int random2(int min, int max) {
+        return min + Random().nextInt(max - min);
+      }
+
+      UID =
+          "${random1(10000000000, 12000000000)}${random1(1000000000, 4999999998)}";
+
+      DateTime currentDate = DateTime.now();
+      int age = currentDate.year - birthDate.year;
+      int month1 = currentDate.month;
+      int month2 = birthDate.month;
+      if (month2 > month1) {
+        age--;
+      } else if (month1 == month2) {
+        int day1 = currentDate.day;
+        int day2 = birthDate.day;
+        if (day2 > day1) {
+          age--;
+        }
+      }
+
+      String NameForDB = nameController.text;
+      String EmailForDB = emailController.text;
+      String MobileNumberForDB = mobilenumberController.text;
+      String formattedDate = DateFormat("dd/MM/yyyy").format(birthDate);
+
+      debugPrint("UID: $UID");
+      debugPrint("Name: $NameForDB");
+      debugPrint("Age: $age");
+      debugPrint("Gender: $_genderchoice");
+      debugPrint("Email: $EmailForDB");
+      debugPrint("Mobile Number: $MobileNumberForDB");
+      debugPrint("Birth Date: $formattedDate");
+      debugPrint("next attempt");
+      await connection.open();
+
+    //   // Create a row
+    //   final insertResult = await connection.execute('''
+    //   INSERT INTO public.userprofile ("User ID", "Name", "age", "gender", "race", "password", "email", "birthdate", "mobilenumber")
+    //   VALUES ('$UID', '$NameForDB', '$age', '$_genderchoice', '5','6', '$EmailForDB', '$formattedDate', '$MobileNumberForDB');
+    // ''');
+    //   print('Row inserted successfully!');
+    // Read a row
+      final selectResult = await connection
+          .query('SELECT * FROM public.userprofile WHERE "email" = "$EmailForDB"');
+      for (final row in selectResult) {
+        print('Read row: $row');
+      }
+      print("row");
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      await connection.close();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -79,6 +165,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
+                    controller: nameController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -127,6 +214,7 @@ class _RegisterPageState extends State<RegisterPage> {
                 Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
+                    controller: emailController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -193,10 +281,11 @@ class _RegisterPageState extends State<RegisterPage> {
                           );
                           if (pickedDate != null) {
                             String formattedDate =
-                                DateFormat("dd-MM-yyyy").format(pickedDate);
+                                DateFormat("dd/MM/yyyy").format(pickedDate);
                             setState(
                               () {
                                 dateController.text = formattedDate.toString();
+                                birthDate = pickedDate;
                               },
                             );
                           } else {
@@ -218,6 +307,74 @@ class _RegisterPageState extends State<RegisterPage> {
                     },
                   ),
                 ),
+
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 240),
+                  child: Text(
+                    'Gender',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                // const SizedBox(
+                //   height: 10,
+                // ),
+                Row(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.only(left: 40),
+                      child: Row(
+                        children: [
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Radio(
+                              value: "Male",
+                              groupValue: _genderchoice,
+                              onChanged: (val1) {
+                                setState(() {
+                                  _genderchoice = val1;
+                                });
+                              },
+                            ),
+                          ),
+                          const Text(
+                            "Male",
+                            style: TextStyle(fontSize: 15),
+                          )
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(left: 50),
+                      child: Row(
+                        children: [
+                          Transform.scale(
+                            scale: 1.2,
+                            child: Radio(
+                              value: "Female",
+                              groupValue: _genderchoice,
+                              onChanged: (val2) {
+                                setState(() {
+                                  _genderchoice = val2;
+                                });
+                              },
+                            ),
+                          ),
+                          const Text(
+                            "Female",
+                            style: TextStyle(fontSize: 15),
+                          )
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
                 const SizedBox(
                   height: 10,
                 ),
@@ -232,13 +389,13 @@ class _RegisterPageState extends State<RegisterPage> {
                     ),
                   ),
                 ),
-
                 const SizedBox(
                   height: 10,
                 ),
                 Padding(
                   padding: const EdgeInsets.only(right: 50, left: 50),
                   child: TextFormField(
+                    controller: mobilenumberController,
                     decoration: InputDecoration(
                       border: const OutlineInputBorder(
                         borderRadius: BorderRadius.all(
@@ -251,6 +408,10 @@ class _RegisterPageState extends State<RegisterPage> {
                         fontSize: 15,
                       ),
                     ),
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(8),
+                      FilteringTextInputFormatter.allow(RegExp("[0-9]")),
+                    ],
                     keyboardType: TextInputType.number,
                     validator: (value) {
                       if (value!.trim().isEmpty) {
@@ -416,16 +577,37 @@ class _RegisterPageState extends State<RegisterPage> {
                     if (formKey.currentState!.validate()) {
                       if (isCheck == false) {
                         showTopSnackBar1(context);
+                        // debugPrint("${nameController.text}hi");
                         // password.clear();
                         // confirmPassword.clear();
                       } else {
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (BuildContext context) {
-                              return const IntroPages();
-                            },
-                          ),
-                        );
+                        DateTime currentDate = DateTime.now();
+                        int age = currentDate.year - birthDate.year;
+                        int month1 = currentDate.month;
+                        int month2 = birthDate.month;
+                        if (month2 > month1) {
+                          age--;
+                        } else if (month1 == month2) {
+                          int day1 = currentDate.day;
+                          int day2 = birthDate.day;
+                          if (day2 > day1) {
+                            age--;
+                          }
+                        }
+                        if (_genderchoice != "Male" &&
+                            _genderchoice != "Female") {
+                          showTopSnackBar2(context);
+                        } else {
+
+                          connectAndPerformOperations();
+                          // Navigator.of(context).pushReplacement(
+                          //   MaterialPageRoute(
+                          //     builder: (BuildContext context) {
+                          //       return const IntroPages();
+                          //     },
+                          //   ),
+                          // );
+                        }
                       }
                     }
                   },
@@ -501,6 +683,27 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: const EdgeInsets.all(24),
         title: 'Error message',
         message: 'Please agree to the Terms of service and Privacy Policy.',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
+      )..show(context);
+
+  void showTopSnackBar2(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Please select a gender',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(

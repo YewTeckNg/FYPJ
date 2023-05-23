@@ -4,6 +4,8 @@ import 'package:project/LandingPage.dart';
 import 'package:project/pages/main/explorer/currentlocation.dart';
 import 'package:project/pages/main/explorer/explorer.dart';
 import 'package:project/pages/main/settings.dart';
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
   const ProfilePage({Key? key}) : super(key: key);
@@ -18,6 +20,33 @@ class _ProfilePageState extends State<ProfilePage> {
   TimeOfDay startTime = TimeOfDay.now();
 
   TimeOfDay endTime = TimeOfDay.now();
+
+  void main() {
+    Map<String, String> jsonData = {
+      'uid': '112517760383136920868',
+      'topk': '5', // pois per itinerary
+      'topn': '3', // itineraries
+      'useravailtime': '413453',
+      'vehiclemode': '2',
+      'mode': '1',
+      'userendpoi': '0x31da11ca5e6684c70x8e028c772691d293',
+      'latuser': '1.5234214',
+      'longuser': '1.3523531',
+    };
+
+    String apiUrl = "http://127.0.0.1:7687/getrecommendation";
+
+    http.post(Uri.parse(apiUrl), body: jsonData).then((response) {
+      if (response.statusCode == 200) {
+        var jsonResponse = json.decode(response.body);
+        print(jsonResponse);
+      } else {
+        print('Request failed with status: ${response.statusCode}.');
+      }
+    }).catchError((error) {
+      print('Error: $error');
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -296,6 +325,10 @@ class _ProfilePageState extends State<ProfilePage> {
                     )
                   ],
                 ),
+                // ElevatedButton(
+                //   onPressed: main,
+                //   child: const Text('hi'),
+                // )
               ],
             ),
           ),
