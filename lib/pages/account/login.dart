@@ -256,7 +256,9 @@ class _LoginPageState extends State<LoginPage> {
                             Navigator.of(context).pushReplacement(
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
-                                  return const ForgetPassword();
+                                  return ForgetPassword(
+                                    Email: email.text,
+                                  );
                                 },
                               ),
                             );

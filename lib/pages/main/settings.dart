@@ -1,7 +1,8 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:project/pages/account/newpassword.dart';
 import 'package:project/pages/main/profile.dart';
+
+import '../account/newpassword2.dart';
 
 class SettingsPage extends StatefulWidget {
   String Email;
@@ -256,7 +257,9 @@ class _SettingsPageState extends State<SettingsPage> {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return const NewPassword();
+                                    return NewPassword2(
+                                      Email: widget.Email,
+                                    );
                                   },
                                 ),
                               );

@@ -1,24 +1,24 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
-import 'package:project/pages/account/forgetpassword.dart';
 import 'package:crypt/crypt.dart';
 import 'package:postgres/postgres.dart';
-import 'package:project/pages/account/login.dart';
+import 'package:project/pages/main/profile.dart';
+import 'package:project/pages/main/settings.dart';
 
-class NewPassword extends StatefulWidget {
+class NewPassword2 extends StatefulWidget {
   String Email;
 
-  NewPassword({
+  NewPassword2({
     Key? key,
     required this.Email,
   }) : super(key: key);
 
   @override
-  State<NewPassword> createState() => _NewPasswordState();
+  State<NewPassword2> createState() => _NewPasswordState2();
 }
 
-class _NewPasswordState extends State<NewPassword> {
+class _NewPasswordState2 extends State<NewPassword2> {
   bool _secureText1 = true;
 
   TextEditingController password = TextEditingController();
@@ -29,6 +29,11 @@ class _NewPasswordState extends State<NewPassword> {
       RegExp(r'^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{8,}$');
 
   final formKey = GlobalKey<FormState>();
+
+  static Future<T?> push<T extends Object>(
+      BuildContext context, Route<T> route) {
+    return Navigator.of(context).push(route);
+  }
 
   Future<void> connectAndPerformOperations() async {
     final connection = PostgreSQLConnection(
@@ -41,8 +46,6 @@ class _NewPasswordState extends State<NewPassword> {
 
     try {
       await connection.open();
-
-      // print(widget.Email);
 
       String PasswordForDB = password.text;
       Crypt HashedPassword =
@@ -77,7 +80,9 @@ class _NewPasswordState extends State<NewPassword> {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(
             builder: (BuildContext context) {
-              return const LoginPage();
+              return ProfilePage(
+                Email: widget.Email,
+              );
             },
           ),
         );
@@ -247,7 +252,7 @@ class _NewPasswordState extends State<NewPassword> {
                   Navigator.of(context).pushReplacement(
                     MaterialPageRoute(
                       builder: (BuildContext context) {
-                        return ForgetPassword(
+                        return SettingsPage(
                           Email: widget.Email,
                         );
                       },
