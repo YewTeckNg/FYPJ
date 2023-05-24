@@ -233,7 +233,9 @@ class _RegisterPageState extends State<RegisterPage> {
           Navigator.of(context).pushReplacement(
             MaterialPageRoute(
               builder: (BuildContext context) {
-                return const IntroPages();
+                return IntroPages(
+                  Email: EmailForDB,
+                );
               },
             ),
           );

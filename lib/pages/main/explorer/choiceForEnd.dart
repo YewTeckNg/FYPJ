@@ -5,6 +5,8 @@ import 'package:project/pages/main/explorer/searchlocation2.dart';
 import '../../../constants.dart';
 
 class ChoiceForEndPage extends StatefulWidget {
+  String Email;
+
   String firstLocation;
 
   String secondLocation;
@@ -31,6 +33,7 @@ class ChoiceForEndPage extends StatefulWidget {
 
   ChoiceForEndPage({
     Key? key,
+    required this.Email,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -67,6 +70,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                         MaterialPageRoute(
                           builder: (BuildContext context) {
                             return ExplorerPage(
+                              Email: widget.Email,
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
@@ -135,6 +139,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                   MaterialPageRoute(
                     builder: (BuildContext context) {
                       return ExplorerPage(
+                        Email: widget.Email,
                         firstLocation: widget.firstLocation,
                         secondLocation: widget.firstLocation,
                         startTime: widget.startTime,
@@ -191,6 +196,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                   MaterialPageRoute(
                     builder: (BuildContext context) {
                       return ExplorerPage(
+                        Email: widget.Email,
                         firstLocation: widget.firstLocation,
                         secondLocation: "End at itinerary",
                         startTime: widget.startTime,
@@ -247,6 +253,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                   MaterialPageRoute(
                     builder: (BuildContext context) {
                       return SearchLocationPage2(
+                        Email: widget.Email,
                         firstLocation: widget.firstLocation,
                         secondLocation: widget.secondLocation,
                         startTime: widget.startTime,

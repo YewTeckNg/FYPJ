@@ -5,6 +5,8 @@ import '../../../constants.dart';
 import 'explorer.dart';
 
 class SelectRoutePage extends StatefulWidget {
+  String Email;
+
   String firstLocation;
 
   String secondLocation;
@@ -31,6 +33,7 @@ class SelectRoutePage extends StatefulWidget {
 
   SelectRoutePage({
     Key? key,
+    required this.Email,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -69,6 +72,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                           MaterialPageRoute(
                             builder: (BuildContext context) {
                               return ExplorerPage(
+                                Email: widget.Email,
                                 firstLocation: widget.firstLocation,
                                 secondLocation: widget.secondLocation,
                                 startTime: widget.startTime,
@@ -344,6 +348,7 @@ class _SelectRoutePageState extends State<SelectRoutePage> {
                                   MaterialPageRoute(
                                     builder: (BuildContext context) {
                                       return ExplorerMapPage(
+                                        Email: widget.Email,
                                         firstLocation: widget.firstLocation,
                                         secondLocation: widget.secondLocation,
                                         startTime: widget.startTime,

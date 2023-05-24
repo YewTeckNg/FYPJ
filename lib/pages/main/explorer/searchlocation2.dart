@@ -11,6 +11,8 @@ import '../../../models/autocomplate_prediction.dart';
 import '../../../models/place_auto_complate_response.dart';
 
 class SearchLocationPage2 extends StatefulWidget {
+  String Email;
+
   String firstLocation;
 
   String secondLocation;
@@ -37,6 +39,7 @@ class SearchLocationPage2 extends StatefulWidget {
 
   SearchLocationPage2({
     Key? key,
+    required this.Email,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -100,6 +103,7 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                         MaterialPageRoute(
                           builder: (BuildContext context) {
                             return ChoiceForEndPage(
+                              Email: widget.Email,
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
@@ -197,6 +201,7 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                   MaterialPageRoute(
                     builder: (BuildContext context) {
                       return ExplorerPage(
+                        Email: widget.Email,
                         firstLocation: widget.firstLocation,
                         secondLocation: 'Nanyang Polytechnic',
                         startTime: widget.startTime,
@@ -255,6 +260,7 @@ class _SearchLocationPage2State extends State<SearchLocationPage2> {
                     MaterialPageRoute(
                       builder: (BuildContext context) {
                         return ExplorerPage(
+                          Email: widget.Email,
                           firstLocation: widget.firstLocation,
                           secondLocation: placePredictions[index].description!,
                           startTime: widget.startTime,
