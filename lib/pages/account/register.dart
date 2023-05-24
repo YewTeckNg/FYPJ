@@ -1,13 +1,18 @@
 import 'dart:math';
 
 import 'package:another_flushbar/flushbar.dart';
+import 'package:crypt/crypt.dart';
+import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:postgres/postgres.dart';
 import 'package:project/pages/account/login.dart';
 import 'package:email_validator/email_validator.dart';
+
+import '../intro_pages/intro_pages.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({
@@ -17,6 +22,14 @@ class RegisterPage extends StatefulWidget {
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
+
+List<String> Races = <String>[
+  'Chinese',
+  'Malay',
+  'Indian',
+  'Eurasian',
+  'Others'
+];
 
 class _RegisterPageState extends State<RegisterPage> {
   // use this controller to get what the user typed
@@ -34,6 +47,8 @@ class _RegisterPageState extends State<RegisterPage> {
 
   TextEditingController dateController = TextEditingController();
 
+  TextEditingController raceController = TextEditingController();
+
   TextEditingController mobilenumberController = TextEditingController();
 
   TextEditingController password = TextEditingController();
@@ -49,7 +64,69 @@ class _RegisterPageState extends State<RegisterPage> {
 
   String? UID;
 
-  String? _genderchoice;
+  String? _genderchoice = "Male";
+
+  String dropdownValue = Races.first;
+
+  Container emptyContainer = Container();
+
+  Container emptyContainer2 = Container();
+
+  late Container placeHolderContainer = Container(
+    child: Padding(
+      padding: const EdgeInsets.only(right: 50, left: 50),
+      child: TextFormField(
+        controller: raceController,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+          hintText: ' Enter your race',
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: 15,
+          ),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value!.trim().isEmpty) {
+            return 'Race is required';
+          }
+          return null;
+        },
+      ),
+    ),
+  );
+
+  late Container placeHolderContainer2 = Container(
+    child: Padding(
+      padding: const EdgeInsets.only(right: 50, left: 50, top: 10),
+      child: TextFormField(
+        controller: raceController,
+        decoration: InputDecoration(
+          border: const OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(30),
+            ),
+          ),
+          hintText: ' Enter your race',
+          hintStyle: TextStyle(
+            color: Colors.grey.shade400,
+            fontSize: 15,
+          ),
+        ),
+        keyboardType: TextInputType.emailAddress,
+        validator: (value) {
+          if (value!.trim().isEmpty) {
+            return 'Race is required';
+          }
+          return null;
+        },
+      ),
+    ),
+  );
 
   Future<void> connectAndPerformOperations() async {
     final connection = PostgreSQLConnection(
@@ -90,31 +167,78 @@ class _RegisterPageState extends State<RegisterPage> {
       String NameForDB = nameController.text;
       String EmailForDB = emailController.text;
       String MobileNumberForDB = mobilenumberController.text;
+      String PasswordForDB = password.text;
+      Crypt HashedPassword =
+          Crypt.sha256(PasswordForDB, salt: 'abcdefghijklmnop');
+      String RaceForDB;
+      if (dropdownValue == "Chinese" ||
+          dropdownValue == "Malay" ||
+          dropdownValue == "Indian" ||
+          dropdownValue == "Eurasian") {
+        RaceForDB = dropdownValue;
+      } else {
+        RaceForDB = raceController.text;
+      }
       String formattedDate = DateFormat("dd/MM/yyyy").format(birthDate);
 
       debugPrint("UID: $UID");
       debugPrint("Name: $NameForDB");
       debugPrint("Age: $age");
       debugPrint("Gender: $_genderchoice");
+      debugPrint("Race: $dropdownValue");
       debugPrint("Email: $EmailForDB");
+      debugPrint("Race: $RaceForDB");
+      debugPrint("Password: $PasswordForDB");
+      debugPrint("Hashed Password: $HashedPassword");
       debugPrint("Mobile Number: $MobileNumberForDB");
       debugPrint("Birth Date: $formattedDate");
       debugPrint("next attempt");
       await connection.open();
 
-    //   // Create a row
-    //   final insertResult = await connection.execute('''
-    //   INSERT INTO public.userprofile ("User ID", "Name", "age", "gender", "race", "password", "email", "birthdate", "mobilenumber")
-    //   VALUES ('$UID', '$NameForDB', '$age', '$_genderchoice', '5','6', '$EmailForDB', '$formattedDate', '$MobileNumberForDB');
-    // ''');
-    //   print('Row inserted successfully!');
-    // Read a row
-      final selectResult = await connection
-          .query('SELECT * FROM public.userprofile WHERE "email" = "$EmailForDB"');
-      for (final row in selectResult) {
-        print('Read row: $row');
+      // Read a row
+      final selectResult = await connection.query(
+          "SELECT EXISTS (SELECT * FROM public.userprofile where email='$EmailForDB')");
+      for (final i in selectResult) {
+        if (i.toString() == '[true]') {
+          showTopSnackBar3(context);
+        } else {
+          print("Account has not been created");
+          // Create a row
+          final insertResult = await connection.execute('''
+            INSERT INTO public.userprofile ("User ID", "Name", "age", "gender", "race", "password", "email", "birthdate", "mobilenumber")
+            VALUES ('$UID', '$NameForDB', '$age', '$_genderchoice', '$RaceForDB','$HashedPassword', '$EmailForDB', '$formattedDate', '$MobileNumberForDB');
+          ''');
+          print('Row inserted successfully!');
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            Flushbar(
+              icon: const Icon(
+                Icons.message,
+                size: 32,
+                color: Colors.white,
+              ),
+              shouldIconPulse: false,
+              padding: const EdgeInsets.all(24),
+              title: 'Success Message',
+              message: 'Account has been registered successfully',
+              flushbarPosition: FlushbarPosition.TOP,
+              margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
+              ),
+              duration: const Duration(seconds: 3),
+              barBlur: 20,
+              backgroundColor: Colors.green.shade700.withOpacity(0.9),
+            ).show(context);
+          });
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return const IntroPages();
+              },
+            ),
+          );
+        }
       }
-      print("row");
     } catch (e) {
       print('Error: $e');
     } finally {
@@ -379,7 +503,86 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(right: 182),
+                  padding: EdgeInsets.only(right: 256),
+                  child: Text(
+                    'Race',
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontWeight: FontWeight.w800,
+                      fontSize: 15,
+                    ),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                Container(
+                  height: 57,
+                  width: 295,
+                  decoration: BoxDecoration(
+                    borderRadius: const BorderRadius.all(
+                      Radius.circular(30),
+                    ),
+                    border: Border.all(color: Colors.black38),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.only(left: 15.0, top: 2),
+                    child: DropdownButton2(
+                      items: Races.map<DropdownMenuItem<String>>((value) {
+                        return DropdownMenuItem<String>(
+                          value: value,
+                          child: Text(value),
+                        );
+                      }).toList(),
+                      iconStyleData: const IconStyleData(
+                        icon: Padding(
+                          padding: EdgeInsets.only(left: 140),
+                          child: Icon(Icons.arrow_drop_down),
+                        ),
+                        iconSize: 35,
+                      ),
+                      dropdownStyleData: DropdownStyleData(
+                        maxHeight: 200,
+                        width: 150,
+                        padding: null,
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                        elevation: 8,
+                        offset: const Offset(-20, 0),
+                        scrollbarTheme: ScrollbarThemeData(
+                          radius: const Radius.circular(40),
+                          thickness: MaterialStateProperty.all(6),
+                          thumbVisibility: MaterialStateProperty.all(true),
+                        ),
+                      ),
+                      underline: const SizedBox(),
+                      value: dropdownValue,
+                      onChanged: (newValue2) {
+                        setState(() {
+                          dropdownValue = newValue2!;
+                          if (dropdownValue == "Others") {
+                            placeHolderContainer = placeHolderContainer2;
+                            emptyContainer = placeHolderContainer;
+                            // emptyContainer = emptyContainer2;
+                          } else if (dropdownValue == "Chinese" ||
+                              dropdownValue == "Malay" ||
+                              dropdownValue == "Indian" ||
+                              dropdownValue == "Eurasian") {
+                            emptyContainer = emptyContainer2;
+                            placeHolderContainer = emptyContainer;
+                          }
+                        });
+                      },
+                    ),
+                  ),
+                ),
+                emptyContainer,
+                const SizedBox(
+                  height: 10,
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(right: 186),
                   child: Text(
                     'Mobile Number',
                     style: TextStyle(
@@ -428,7 +631,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(right: 220),
+                  padding: EdgeInsets.only(right: 226),
                   child: Text(
                     'Password',
                     style: TextStyle(
@@ -486,7 +689,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   height: 10,
                 ),
                 const Padding(
-                  padding: EdgeInsets.only(right: 163),
+                  padding: EdgeInsets.only(right: 168),
                   child: Text(
                     'Confirm Password',
                     style: TextStyle(
@@ -598,15 +801,7 @@ class _RegisterPageState extends State<RegisterPage> {
                             _genderchoice != "Female") {
                           showTopSnackBar2(context);
                         } else {
-
                           connectAndPerformOperations();
-                          // Navigator.of(context).pushReplacement(
-                          //   MaterialPageRoute(
-                          //     builder: (BuildContext context) {
-                          //       return const IntroPages();
-                          //     },
-                          //   ),
-                          // );
                         }
                       }
                     }
@@ -704,6 +899,27 @@ class _RegisterPageState extends State<RegisterPage> {
         padding: const EdgeInsets.all(24),
         title: 'Error message',
         message: 'Please select a gender',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
+      )..show(context);
+
+  void showTopSnackBar3(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Email has already been used',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(

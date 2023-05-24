@@ -5,8 +5,11 @@ import 'package:project/pages/main/explorer/selectroute.dart';
 import 'package:project/pages/main/profile.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:dropdown_button2/dropdown_button2.dart';
 
 import 'choiceForEnd.dart';
+
+List<String> NoOfPOIs = <String>['2', '3', '4', '5'];
 
 class ExplorerPage extends StatefulWidget {
   String firstLocation;
@@ -53,7 +56,6 @@ class ExplorerPage extends StatefulWidget {
   State<ExplorerPage> createState() => _ExplorerPageState();
 }
 
-const List<String> NoOfPOIs = <String>['2', '3', '4', '5'];
 
 const List<String> NoofItinerary = <String>['2', '3', '4', '5'];
 
@@ -582,13 +584,31 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 15, top: 5),
-                                child: DropdownButton(
-                                  icon: const Padding(
-                                    padding: EdgeInsets.only(left: 35),
-                                    child: Icon(Icons.arrow_drop_down),
+                                    const EdgeInsets.only(top: 5, left: 17),
+                                child: DropdownButton2(
+                                  iconStyleData: const IconStyleData(
+                                    icon: Padding(
+                                      padding: EdgeInsets.only(left: 38),
+                                      child: Icon(Icons.arrow_drop_down),
+                                    ),
+                                    iconSize: 30,
                                   ),
-                                  iconSize: 30,
+                                  dropdownStyleData: DropdownStyleData(
+                                    maxHeight: 200,
+                                    width: 100,
+                                    padding: null,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    elevation: 8,
+                                    offset: const Offset(-20, 0),
+                                    scrollbarTheme: ScrollbarThemeData(
+                                      radius: const Radius.circular(40),
+                                      thickness: MaterialStateProperty.all(6),
+                                      thumbVisibility:
+                                          MaterialStateProperty.all(true),
+                                    ),
+                                  ),
                                   underline: const SizedBox(),
                                   value: widget.topK.toString(),
                                   onChanged: (newValue) {
@@ -633,13 +653,31 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             children: [
                               Padding(
                                 padding:
-                                    const EdgeInsets.only(left: 15, top: 5),
-                                child: DropdownButton(
-                                  icon: const Padding(
-                                    padding: EdgeInsets.only(left: 35),
-                                    child: Icon(Icons.arrow_drop_down),
+                                    const EdgeInsets.only(top: 5, left: 17),
+                                child: DropdownButton2(
+                                  iconStyleData: const IconStyleData(
+                                    icon: Padding(
+                                      padding: EdgeInsets.only(left: 38),
+                                      child: Icon(Icons.arrow_drop_down),
+                                    ),
+                                    iconSize: 30,
                                   ),
-                                  iconSize: 30,
+                                  dropdownStyleData: DropdownStyleData(
+                                    maxHeight: 200,
+                                    width: 100,
+                                    padding: null,
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(14),
+                                    ),
+                                    elevation: 8,
+                                    offset: const Offset(-20, 0),
+                                    scrollbarTheme: ScrollbarThemeData(
+                                      radius: const Radius.circular(40),
+                                      thickness: MaterialStateProperty.all(6),
+                                      thumbVisibility:
+                                          MaterialStateProperty.all(true),
+                                    ),
+                                  ),
                                   underline: const SizedBox(),
                                   value: widget.topN.toString(),
                                   onChanged: (newValue2) {
@@ -878,8 +916,8 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         previousSec =
                             (_timeOfDay3.hour * 60 + _timeOfDay3.minute) * 60;
                         diffSec = endSec - nowSec;
-                        // debugPrint(
-                        //     '{\n "UID" : "Root"\n "TopK" : "${widget.topK}"\n "TopN" : "${widget.topN}"\n "Time" : "$diffSec"\n "VehicleMode" : "${widget.selectedIconIndex}"\n "Mode" : "${widget.endDestinationChoice}"\n "UserEndPoi" : "${widget.secondLocation}"\n "Latitude" : "${widget.latEnd}"\n "Longitude" : "${widget.longEnd}"\n}');
+                        debugPrint(
+                            '{\n "UID" : "Root"\n "TopK" : "${widget.topK}"\n "TopN" : "${widget.topN}"\n "Time" : "$diffSec"\n "VehicleMode" : "${widget.selectedIconIndex}"\n "Mode" : "${widget.endDestinationChoice}"\n "UserEndPoi" : "${widget.secondLocation}"\n "Latitude" : "${widget.latEnd}"\n "Longitude" : "${widget.longEnd}"\n}');
                         if (widget.firstLocation != 'Search destination' &&
                             widget.secondLocation != 'Search destination' &&
                             endSec > nowSec &&
@@ -932,7 +970,6 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             showTopSnackBar5(context);
                           }
                         }
-                        
                       }
                     },
                     style: ElevatedButton.styleFrom(
