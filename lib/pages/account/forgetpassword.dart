@@ -1,13 +1,17 @@
 import 'package:another_flushbar/flushbar.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
-import 'package:project/pages/account/enterpasscode.dart';
+import 'package:postgres/postgres.dart';
 import 'package:project/pages/account/login.dart';
 import 'package:project/pages/account/newpassword.dart';
 
 class ForgetPassword extends StatefulWidget {
-  const ForgetPassword({super.key});
+  String Email;
+
+  ForgetPassword({
+    Key? key,
+    required this.Email,
+  }) : super(key: key);
 
   @override
   State<ForgetPassword> createState() => _ForgetPasswordState();
@@ -15,6 +19,47 @@ class ForgetPassword extends StatefulWidget {
 
 class _ForgetPasswordState extends State<ForgetPassword> {
   final formKey = GlobalKey<FormState>();
+
+  TextEditingController emailController = TextEditingController();
+
+  Future<void> connectAndPerformOperations() async {
+    final connection = PostgreSQLConnection(
+      '20.198.133.115',
+      80,
+      'postgres',
+      username: 'admin',
+      password: 'admin',
+    );
+
+    try {
+      await connection.open();
+
+      String Email = emailController.text;
+      // Read a row
+      final selectResult = await connection.query(
+          "SELECT EXISTS (SELECT * FROM public.userprofile where email='$Email')");
+      for (final row in selectResult) {
+        print(row.toString());
+        if (row.toString() == "[false]") {
+          showTopSnackBar1(context);
+        } else if (row.toString() == "[true]") {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return NewPassword(
+                  Email: emailController.text,
+                );
+              },
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      print('Error: $e');
+    } finally {
+      await connection.close();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -72,13 +117,14 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               Padding(
                 padding: const EdgeInsets.only(right: 50, left: 50),
                 child: TextFormField(
+                  controller: emailController,
                   decoration: InputDecoration(
                     border: const OutlineInputBorder(
                       borderRadius: BorderRadius.all(
                         Radius.circular(30),
                       ),
                     ),
-                    hintText: ' John@gmail.com',
+                    hintText: ' Johnny@gmail.com',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade400,
                       fontSize: 15,
@@ -102,34 +148,7 @@ class _ForgetPasswordState extends State<ForgetPassword> {
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    Navigator.of(context).pushReplacement(
-                      MaterialPageRoute(
-                        builder: (BuildContext context) {
-                          // SchedulerBinding.instance.addPostFrameCallback((_) {
-                          //   Flushbar(
-                          //     icon: const Icon(
-                          //       Icons.message,
-                          //       size: 32,
-                          //       color: Colors.white,
-                          //     ),
-                          //     shouldIconPulse: false,
-                          //     padding: const EdgeInsets.all(24),
-                          //     title: 'Code verfication',
-                          //     message: 'The 4-digit code is 1234',
-                          //     flushbarPosition: FlushbarPosition.TOP,
-                          //     margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-                          //     borderRadius: const BorderRadius.all(
-                          //       Radius.circular(10),
-                          //     ),
-                          //     duration: const Duration(seconds: 3),
-                          //     barBlur: 20,
-                          //     backgroundColor: Colors.black.withOpacity(0.7),
-                          //   ).show(context);
-                          // });
-                          return const NewPassword();
-                        },
-                      ),
-                    );
+                    connectAndPerformOperations();
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -181,4 +200,25 @@ class _ForgetPasswordState extends State<ForgetPassword> {
       ),
     );
   }
+
+  void showTopSnackBar1(BuildContext context) => Flushbar(
+        icon: const Icon(
+          Icons.error,
+          size: 32,
+          color: Colors.white,
+        ),
+        shouldIconPulse: false,
+        padding: const EdgeInsets.all(24),
+        title: 'Error message',
+        message: 'Email is not registerd',
+        flushbarPosition: FlushbarPosition.TOP,
+        margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(10),
+        ),
+        dismissDirection: FlushbarDismissDirection.HORIZONTAL,
+        duration: const Duration(seconds: 2),
+        barBlur: 20,
+        backgroundColor: Colors.red.shade700.withOpacity(0.9),
+      )..show(context);
 }
