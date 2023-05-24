@@ -1,10 +1,12 @@
 import 'package:another_flushbar/flushbar.dart';
+import 'package:crypt/crypt.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:project/pages/account/forgetpassword.dart';
 import 'package:project/pages/account/register.dart';
-import 'package:project/pages/main/explorer/explorer.dart';
 import 'package:postgres/postgres.dart';
+
+import '../main/explorer/explorer.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -48,11 +50,40 @@ class _LoginPageState extends State<LoginPage> {
     try {
       await connection.open();
 
+      String EmailForDB = email.text;
+      String PasswordForDB = password.text;
+      Crypt HashedPassword =
+          Crypt.sha256(PasswordForDB, salt: 'abcdefghijklmnop');
       // Read a row
-      final selectResult = await connection
-          .query('SELECT * FROM public.userprofile where "email" = "${email.text}"');
+      final selectResult = await connection.query(
+          "SELECT EXISTS (SELECT * FROM public.userprofile where email='$EmailForDB' and password = '$HashedPassword')");
       for (final row in selectResult) {
-        print('Read row: $row');
+        if (row.toString() == "[false]") {
+          showTopSnackBar1(context);
+          password.clear();
+        } else if (row.toString() == "[true]") {
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return ExplorerPage(
+                  Email: EmailForDB,
+                  firstLocation: 'Search destination',
+                  secondLocation: 'Search destination',
+                  startTime: startTime,
+                  endTime: endTime,
+                  selectedIconIndex: -1,
+                  endDestinationChoice: 0,
+                  topK: 2,
+                  topN: 2,
+                  latStart: 0,
+                  latEnd: 0,
+                  longStart: 0,
+                  longEnd: 0,
+                );
+              },
+            ),
+          );
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -99,9 +130,9 @@ class _LoginPageState extends State<LoginPage> {
                 height: 80,
               ),
               const Padding(
-                padding: EdgeInsets.only(right: 218),
+                padding: EdgeInsets.only(right: 252),
                 child: Text(
-                  'Username',
+                  'Email',
                   style: TextStyle(
                     color: Colors.grey,
                     fontWeight: FontWeight.w800,
@@ -122,7 +153,7 @@ class _LoginPageState extends State<LoginPage> {
                         Radius.circular(30),
                       ),
                     ),
-                    hintText: ' Username',
+                    hintText: ' Email',
                     hintStyle: TextStyle(
                       color: Colors.grey.shade400,
                       fontSize: 15,
@@ -130,7 +161,7 @@ class _LoginPageState extends State<LoginPage> {
                   ),
                   validator: (namevalue) {
                     if (namevalue!.trim().isEmpty) {
-                      return 'Username is required';
+                      return 'Email is required';
                     }
                     return null;
                   },
@@ -242,34 +273,7 @@ class _LoginPageState extends State<LoginPage> {
               ElevatedButton(
                 onPressed: () {
                   if (formKey.currentState!.validate()) {
-                    debugPrint(email.text);
-                    if (email.text.toString() == 'Johnny@gmail.com' &&
-                        password.text.toString() == 'P@ssw0rd') {
-                      connectAndPerformOperations();
-                      Navigator.of(context).pushReplacement(
-                        MaterialPageRoute(
-                          builder: (BuildContext context) {
-                            return ExplorerPage(
-                              firstLocation: 'Search destination',
-                              secondLocation: 'Search destination',
-                              startTime: startTime,
-                              endTime: endTime,
-                              selectedIconIndex: -1,
-                              endDestinationChoice: 0,
-                              topK: 2,
-                              topN: 2,
-                              latStart: 0,
-                              latEnd: 0,
-                              longStart: 0,
-                              longEnd: 0,
-                            );
-                          },
-                        ),
-                      );
-                    } else {
-                      showTopSnackBar1(context);
-                      password.clear();
-                    }
+                    connectAndPerformOperations();
                   }
                 },
                 style: ElevatedButton.styleFrom(
@@ -340,7 +344,7 @@ class _LoginPageState extends State<LoginPage> {
         padding: const EdgeInsets.all(24),
         title: 'Error message',
         message:
-            'Either Username or Password is incorrect. Please re-enter details.',
+            'Either Email or Password is incorrect. Please re-enter details.',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(

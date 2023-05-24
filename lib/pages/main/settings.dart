@@ -3,9 +3,13 @@ import 'package:flutter/material.dart';
 import 'package:project/pages/account/newpassword.dart';
 import 'package:project/pages/main/profile.dart';
 
-
 class SettingsPage extends StatefulWidget {
-  const SettingsPage({Key? key}) : super(key: key);
+  String Email;
+
+  SettingsPage({
+    Key? key,
+    required this.Email,
+  }) : super(key: key);
 
   @override
   _SettingsPageState createState() => _SettingsPageState();
@@ -27,14 +31,16 @@ class _SettingsPageState extends State<SettingsPage> {
     return Container(
       child: Column(
         children: [
-           Padding(
+          Padding(
             padding: const EdgeInsets.only(top: 50, right: 300),
             child: IconButton(
               onPressed: () {
                 Navigator.of(context).pushReplacement(
                   MaterialPageRoute(
                     builder: (BuildContext context) {
-                      return const ProfilePage();
+                      return ProfilePage(
+                        Email: widget.Email,
+                      );
                     },
                   ),
                 );
@@ -46,7 +52,7 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-           Padding(
+          Padding(
             padding: const EdgeInsets.only(
               right: 200.0,
               top: 80,
@@ -60,11 +66,9 @@ class _SettingsPageState extends State<SettingsPage> {
               ),
             ),
           ),
-
           const SizedBox(
             height: 60,
           ),
-
           Padding(
             padding: const EdgeInsets.only(left: 70),
             child: Column(
@@ -201,8 +205,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       padding: const EdgeInsets.only(left: 24.0),
                       child: RichText(
                         text: TextSpan(
-                          text:
-                              'Notifications                              ',
+                          text: 'Notifications                              ',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.grey.shade700,
@@ -242,8 +245,7 @@ class _SettingsPageState extends State<SettingsPage> {
                       padding: const EdgeInsets.only(left: 24.0),
                       child: RichText(
                         text: TextSpan(
-                          text:
-                              'Change Password                    ',
+                          text: 'Change Password                    ',
                           style: TextStyle(
                             fontWeight: FontWeight.w500,
                             color: Colors.grey.shade700,
@@ -275,7 +277,6 @@ class _SettingsPageState extends State<SettingsPage> {
               ],
             ),
           ),
-
           const SizedBox(
             height: 70,
           ),

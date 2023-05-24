@@ -8,15 +8,19 @@ import 'package:project/pages/main/profile.dart';
 import '../../../constants.dart';
 
 class CurrentLocationPage extends StatefulWidget {
-  
-  const CurrentLocationPage({Key? key}) : super(key: key);
+  String Email;
+
+  CurrentLocationPage({
+    Key? key,
+    required this.Email,
+  }) : super(key: key);
 
   @override
   State<CurrentLocationPage> createState() => CurrentLocationPageState();
 }
 
 class CurrentLocationPageState extends State<CurrentLocationPage> {
- final Completer<GoogleMapController> _controller = Completer();
+  final Completer<GoogleMapController> _controller = Completer();
 
   static const LatLng sourceLocation = LatLng(1.2931, 103.852);
   static const LatLng destination = LatLng(1.2931, 103.852);
@@ -58,7 +62,8 @@ class CurrentLocationPageState extends State<CurrentLocationPage> {
             Navigator.of(context).pushReplacement(
               MaterialPageRoute(
                 builder: (BuildContext context) {
-                  return const ProfilePage(
+                  return ProfilePage(
+                    Email: widget.Email,
                   );
                 },
               ),

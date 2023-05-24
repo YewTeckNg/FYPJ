@@ -6,7 +6,14 @@ import 'package:project/pages/intro_pages/intro_page_3.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 class IntroPages extends StatefulWidget {
-  const IntroPages({super.key});
+
+
+  String Email;
+
+  IntroPages({
+    Key? key,
+    required this.Email,
+  }) : super(key: key);
 
   @override
   State<IntroPages> createState() => _IntroPagesState();
@@ -69,6 +76,7 @@ class _IntroPagesState extends State<IntroPages> {
                               MaterialPageRoute(
                                 builder: (BuildContext context) {
                                   return ExplorerPage(
+                                    Email: widget.Email,
                                     firstLocation: 'Search destination',
                                     secondLocation: 'Search destination',
                                     startTime: startTime,

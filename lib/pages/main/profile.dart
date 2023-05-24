@@ -8,7 +8,12 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class ProfilePage extends StatefulWidget {
-  const ProfilePage({Key? key}) : super(key: key);
+  String Email;
+
+  ProfilePage({
+    Key? key,
+    required this.Email,
+  }) : super(key: key);
 
   @override
   _ProfilePageState createState() => _ProfilePageState();
@@ -99,9 +104,9 @@ class _ProfilePageState extends State<ProfilePage> {
                   Column(
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(right: 142, top: 45),
+                        padding: const EdgeInsets.only(right: 146, top: 45),
                         child: Text(
-                          'Root',
+                          'User',
                           style: TextStyle(
                             color: Colors.red.shade600,
                             fontWeight: FontWeight.bold,
@@ -112,10 +117,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       const SizedBox(
                         height: 13,
                       ),
-                      const Padding(
-                        padding: EdgeInsets.only(right: 20),
-                        child: Text(
-                          'redpinsbuffer@gmail.com',
+                      Padding(
+                        padding: const EdgeInsets.only(left:3.0),
+                        child: SizedBox(
+                          // color: Colors.red,
+                          width: 190,
+                          child: Text(
+                            widget.Email,
+                          ),
                         ),
                       ),
                       const Padding(
@@ -297,7 +306,9 @@ class _ProfilePageState extends State<ProfilePage> {
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (BuildContext context) {
-                                    return const SettingsPage();
+                                    return SettingsPage(
+                                      Email: widget.Email,
+                                    );
                                   },
                                 ),
                               );
@@ -316,7 +327,9 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const SettingsPage();
+                                return SettingsPage(
+                                  Email: widget.Email,
+                                );
                               },
                             ),
                           );
@@ -366,14 +379,15 @@ class _ProfilePageState extends State<ProfilePage> {
                           MaterialPageRoute(
                             builder: (BuildContext context) {
                               return ExplorerPage(
+                                Email: widget.Email,
                                 firstLocation: 'Search destination',
                                 secondLocation: 'Search destination',
                                 startTime: startTime,
                                 endTime: endTime,
                                 selectedIconIndex: -1,
                                 endDestinationChoice: 0,
-                                topK: 0,
-                                topN: 0,
+                                topK: 2,
+                                topN: 2,
                                 latStart: 0,
                                 latEnd: 0,
                                 longStart: 0,
@@ -393,7 +407,9 @@ class _ProfilePageState extends State<ProfilePage> {
                         Navigator.of(context).pushReplacement(
                           MaterialPageRoute(
                             builder: (BuildContext context) {
-                              return const CurrentLocationPage();
+                              return CurrentLocationPage(
+                                Email: widget.Email,
+                              );
                             },
                           ),
                         );

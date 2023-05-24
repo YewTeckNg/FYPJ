@@ -6,6 +6,8 @@ import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'explorer.dart';
 
 class RatingExplorerPage extends StatefulWidget {
+  String Email;
+
   String firstLocation;
 
   String secondLocation;
@@ -32,6 +34,7 @@ class RatingExplorerPage extends StatefulWidget {
 
   RatingExplorerPage({
     Key? key,
+    required this.Email,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -82,6 +85,7 @@ class _RatingExplorerPageState extends State<RatingExplorerPage> {
                       MaterialPageRoute(
                         builder: (BuildContext context) {
                           return ExplorerPage(
+                            Email: widget.Email,
                             firstLocation: widget.firstLocation,
                             secondLocation: widget.secondLocation,
                             startTime: widget.startTime,
@@ -173,6 +177,7 @@ class _RatingExplorerPageState extends State<RatingExplorerPage> {
                     MaterialPageRoute(
                       builder: (BuildContext context) {
                         return ExplorerPage(
+                          Email: widget.Email,
                           firstLocation: widget.firstLocation,
                           secondLocation: widget.secondLocation,
                           startTime: widget.startTime,

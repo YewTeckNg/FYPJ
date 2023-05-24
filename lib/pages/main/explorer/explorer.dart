@@ -12,6 +12,8 @@ import 'choiceForEnd.dart';
 List<String> NoOfPOIs = <String>['2', '3', '4', '5'];
 
 class ExplorerPage extends StatefulWidget {
+  String Email;
+
   String firstLocation;
 
   String secondLocation;
@@ -38,6 +40,7 @@ class ExplorerPage extends StatefulWidget {
 
   ExplorerPage({
     Key? key,
+    required this.Email,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -55,7 +58,6 @@ class ExplorerPage extends StatefulWidget {
   @override
   State<ExplorerPage> createState() => _ExplorerPageState();
 }
-
 
 const List<String> NoofItinerary = <String>['2', '3', '4', '5'];
 
@@ -168,7 +170,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const ProfilePage();
+                                return ProfilePage(
+                                  Email: widget.Email,
+                                );
                               },
                             ),
                           );
@@ -200,7 +204,9 @@ class _ExplorerPageState extends State<ExplorerPage> {
                           Navigator.of(context).pushReplacement(
                             MaterialPageRoute(
                               builder: (BuildContext context) {
-                                return const ProfilePage();
+                                return ProfilePage(
+                                  Email: widget.Email,
+                                );
                               },
                             ),
                           );
@@ -256,6 +262,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return SearchLocationPage1(
+                                  Email: widget.Email,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
@@ -366,6 +373,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return ChoiceForEndPage(
+                                  Email: widget.Email,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
@@ -565,7 +573,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         padding: const EdgeInsets.only(top: 15, left: 20),
                         child: Container(
                           height: 60,
-                          width: 110,
+                          width: 118,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -631,10 +639,10 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 15, left: 103),
+                        padding: const EdgeInsets.only(top: 15, left: 106),
                         child: Container(
                           height: 60,
-                          width: 110,
+                          width: 118,
                           decoration: BoxDecoration(
                             color: Colors.white,
                             boxShadow: [
@@ -936,6 +944,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             MaterialPageRoute(
                               builder: (BuildContext context) {
                                 return SelectRoutePage(
+                                  Email: widget.Email,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
