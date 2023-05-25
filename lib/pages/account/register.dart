@@ -234,6 +234,7 @@ class _RegisterPageState extends State<RegisterPage> {
             MaterialPageRoute(
               builder: (BuildContext context) {
                 return IntroPages(
+                  UID: UID!,
                   Email: EmailForDB,
                 );
               },
@@ -748,12 +749,48 @@ class _RegisterPageState extends State<RegisterPage> {
                           style: TextStyle(color: Colors.red),
                         ),
                         TextSpan(
-                          text: 'Terms of service ',
-                          style: TextStyle(
-                            color: Colors.red.shade800,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                            text: 'Terms of service ',
+                            style: TextStyle(
+                              color: Colors.red.shade800,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            recognizer: TapGestureRecognizer()
+                              ..onTap = () {
+                                showDialog(
+                                  context: context,
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.all(
+                                          Radius.circular(32.0),
+                                        ),
+                                      ),
+                                      content: SizedBox(
+                                        height: 240,
+                                        width: 240,
+                                        child: Column(
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(
+                                                  left: 170.0),
+                                              child: IconButton(
+                                                onPressed: () {
+                                                  Navigator.of(context).pop();
+                                                },
+                                                icon: const Icon(
+                                                  Icons.close,
+                                                  size: 35,
+                                                ),
+                                              ),
+                                            ),
+                                            
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                );
+                              }),
                         const TextSpan(
                           text: 'and ',
                           style: TextStyle(color: Colors.red),
@@ -770,7 +807,6 @@ class _RegisterPageState extends State<RegisterPage> {
                       onChanged: (bool? newBool) {
                         setState(() {
                           isCheck = newBool;
-                          debugPrint('$newBool');
                         });
                       }),
                 ),

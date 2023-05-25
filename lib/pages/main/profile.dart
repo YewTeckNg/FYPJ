@@ -10,8 +10,11 @@ import 'package:http/http.dart' as http;
 class ProfilePage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   ProfilePage({
     Key? key,
+    required this.UID,
     required this.Email,
   }) : super(key: key);
 
@@ -308,6 +311,7 @@ class _ProfilePageState extends State<ProfilePage> {
                                   builder: (BuildContext context) {
                                     return SettingsPage(
                                       Email: widget.Email,
+                                      UID: widget.UID,
                                     );
                                   },
                                 ),
@@ -329,6 +333,7 @@ class _ProfilePageState extends State<ProfilePage> {
                               builder: (BuildContext context) {
                                 return SettingsPage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                 );
                               },
                             ),
@@ -380,6 +385,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             builder: (BuildContext context) {
                               return ExplorerPage(
                                 Email: widget.Email,
+                                UID: widget.UID,
                                 firstLocation: 'Search destination',
                                 secondLocation: 'Search destination',
                                 startTime: startTime,
@@ -409,6 +415,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             builder: (BuildContext context) {
                               return CurrentLocationPage(
                                 Email: widget.Email,
+                                UID: widget.UID,
                               );
                             },
                           ),

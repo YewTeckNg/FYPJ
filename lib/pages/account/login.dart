@@ -2,6 +2,7 @@ import 'package:another_flushbar/flushbar.dart';
 import 'package:crypt/crypt.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:project/pages/account/forgetpassword.dart';
 import 'package:project/pages/account/register.dart';
 import 'package:postgres/postgres.dart';
@@ -62,27 +63,54 @@ class _LoginPageState extends State<LoginPage> {
           showTopSnackBar1(context);
           password.clear();
         } else if (row.toString() == "[true]") {
-          Navigator.of(context).pushReplacement(
-            MaterialPageRoute(
-              builder: (BuildContext context) {
-                return ExplorerPage(
-                  Email: EmailForDB,
-                  firstLocation: 'Search destination',
-                  secondLocation: 'Search destination',
-                  startTime: startTime,
-                  endTime: endTime,
-                  selectedIconIndex: -1,
-                  endDestinationChoice: 0,
-                  topK: 2,
-                  topN: 2,
-                  latStart: 0,
-                  latEnd: 0,
-                  longStart: 0,
-                  longEnd: 0,
-                );
-              },
-            ),
-          );
+          final selectResult = await connection.query(
+              '''SELECT "User ID" from public.userprofile where "email" = '$EmailForDB' ''');
+          for (final row in selectResult) {
+            String UID = row.toString().replaceAll(RegExp('[^A-Za-z0-9]'), '');
+            SchedulerBinding.instance.addPostFrameCallback((_) {
+              Flushbar(
+                icon: const Icon(
+                  Icons.message,
+                  size: 32,
+                  color: Colors.white,
+                ),
+                shouldIconPulse: false,
+                padding: const EdgeInsets.all(24),
+                title: 'Success Message',
+                message: 'Login successful',
+                flushbarPosition: FlushbarPosition.TOP,
+                margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+                borderRadius: const BorderRadius.all(
+                  Radius.circular(10),
+                ),
+                duration: const Duration(seconds: 3),
+                barBlur: 20,
+                backgroundColor: Colors.green.shade700.withOpacity(0.9),
+              ).show(context);
+            });
+            Navigator.of(context).pushReplacement(
+              MaterialPageRoute(
+                builder: (BuildContext context) {
+                  return ExplorerPage(
+                    Email: EmailForDB,
+                    UID: UID,
+                    firstLocation: 'Search destination',
+                    secondLocation: 'Search destination',
+                    startTime: startTime,
+                    endTime: endTime,
+                    selectedIconIndex: -1,
+                    endDestinationChoice: 0,
+                    topK: 2,
+                    topN: 2,
+                    latStart: 0,
+                    latEnd: 0,
+                    longStart: 0,
+                    longEnd: 0,
+                  );
+                },
+              ),
+            );
+          }
         }
       }
     } catch (e) {
@@ -228,41 +256,44 @@ class _LoginPageState extends State<LoginPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    Checkbox(
-                      activeColor: Colors.red.shade800,
-                      fillColor: MaterialStateProperty.resolveWith(getColor),
-                      value: isCheck,
-                      onChanged: (bool? newBool) {
-                        setState(() {
-                          isCheck = newBool;
-                        });
-                      },
-                    ),
-                    Text(
-                      'Remember Me?            ',
-                      style: TextStyle(
-                        color: Colors.red.shade600,
-                      ),
-                    ),
-                    RichText(
-                      text: TextSpan(
-                        text: 'Forget Password?',
-                        style: TextStyle(
-                          color: Colors.grey.shade600,
-                          fontWeight: FontWeight.bold,
+                    // Checkbox(
+                    //   activeColor: Colors.red.shade800,
+                    //   fillColor: MaterialStateProperty.resolveWith(getColor),
+                    //   value: isCheck,
+                    //   onChanged: (bool? newBool) {
+                    //     setState(() {
+                    //       isCheck = newBool;
+                    //     });
+                    //   },
+                    // ),
+                    // Text(
+                    //   'Remember Me?            ',
+                    //   style: TextStyle(
+                    //     color: Colors.red.shade600,
+                    //   ),
+                    // ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 16),
+                      child: RichText(
+                        text: TextSpan(
+                          text: 'Forget Password?',
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontWeight: FontWeight.bold,
+                          ),
+                          recognizer: TapGestureRecognizer()
+                            ..onTap = () {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (BuildContext context) {
+                                    return ForgetPassword(
+                                      Email: email.text,
+                                    );
+                                  },
+                                ),
+                              );
+                            },
                         ),
-                        recognizer: TapGestureRecognizer()
-                          ..onTap = () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                builder: (BuildContext context) {
-                                  return ForgetPassword(
-                                    Email: email.text,
-                                  );
-                                },
-                              ),
-                            );
-                          },
                       ),
                     ),
                   ],

@@ -10,8 +10,11 @@ class IntroPages extends StatefulWidget {
 
   String Email;
 
+  String UID;
+
   IntroPages({
     Key? key,
+    required this.UID,
     required this.Email,
   }) : super(key: key);
 
@@ -77,6 +80,7 @@ class _IntroPagesState extends State<IntroPages> {
                                 builder: (BuildContext context) {
                                   return ExplorerPage(
                                     Email: widget.Email,
+                                    UID: widget.UID,
                                     firstLocation: 'Search destination',
                                     secondLocation: 'Search destination',
                                     startTime: startTime,

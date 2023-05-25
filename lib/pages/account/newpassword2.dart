@@ -9,8 +9,11 @@ import 'package:project/pages/main/settings.dart';
 class NewPassword2 extends StatefulWidget {
   String Email;
 
+  String UID;
+
   NewPassword2({
     Key? key,
+    required this.UID,
     required this.Email,
   }) : super(key: key);
 
@@ -85,6 +88,7 @@ class _NewPasswordState2 extends State<NewPassword2> {
               builder: (BuildContext context) {
                 return ProfilePage(
                   Email: widget.Email,
+                  UID: widget.UID,
                 );
               },
             ),
@@ -258,6 +262,7 @@ class _NewPasswordState2 extends State<NewPassword2> {
                       builder: (BuildContext context) {
                         return SettingsPage(
                           Email: widget.Email,
+                          UID: widget.UID,
                         );
                       },
                     ),
