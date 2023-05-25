@@ -7,6 +7,8 @@ import '../../../constants.dart';
 class ChoiceForEndPage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   String firstLocation;
 
   String secondLocation;
@@ -34,6 +36,7 @@ class ChoiceForEndPage extends StatefulWidget {
   ChoiceForEndPage({
     Key? key,
     required this.Email,
+    required this.UID,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -71,6 +74,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                           builder: (BuildContext context) {
                             return ExplorerPage(
                               Email: widget.Email,
+                              UID: widget.UID,
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
@@ -140,6 +144,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                     builder: (BuildContext context) {
                       return ExplorerPage(
                         Email: widget.Email,
+                        UID: widget.UID,
                         firstLocation: widget.firstLocation,
                         secondLocation: widget.firstLocation,
                         startTime: widget.startTime,
@@ -197,6 +202,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                     builder: (BuildContext context) {
                       return ExplorerPage(
                         Email: widget.Email,
+                        UID: widget.UID,
                         firstLocation: widget.firstLocation,
                         secondLocation: "End at itinerary",
                         startTime: widget.startTime,
@@ -254,6 +260,7 @@ class _ChoiceForEndPageState extends State<ChoiceForEndPage> {
                     builder: (BuildContext context) {
                       return SearchLocationPage2(
                         Email: widget.Email,
+                        UID: widget.UID,
                         firstLocation: widget.firstLocation,
                         secondLocation: widget.secondLocation,
                         startTime: widget.startTime,

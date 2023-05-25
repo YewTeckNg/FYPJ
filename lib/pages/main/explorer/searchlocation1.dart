@@ -12,6 +12,8 @@ import 'package:google_maps_webservice/places.dart';
 class SearchLocationPage1 extends StatefulWidget {
   String Email;
 
+  String UID;
+
   String firstLocation;
 
   String secondLocation;
@@ -39,6 +41,7 @@ class SearchLocationPage1 extends StatefulWidget {
   SearchLocationPage1({
     Key? key,
     required this.Email,
+    required this.UID,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -103,6 +106,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                           builder: (BuildContext context) {
                             return ExplorerPage(
                               Email: widget.Email,
+                              UID: widget.UID,
                               firstLocation: widget.firstLocation,
                               secondLocation: widget.secondLocation,
                               startTime: widget.startTime,
@@ -202,6 +206,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                     builder: (BuildContext context) {
                       return ExplorerPage(
                         Email: widget.Email,
+                        UID: widget.UID,
                         firstLocation: 'City Hall',
                         secondLocation: widget.secondLocation,
                         startTime: widget.startTime,
@@ -272,6 +277,7 @@ class _SearchLocationPage1State extends State<SearchLocationPage1> {
                       builder: (BuildContext context) {
                         return ExplorerPage(
                           Email: widget.Email,
+                          UID: widget.UID,
                           firstLocation: placePredictions[index].description!,
                           secondLocation: widget.secondLocation,
                           startTime: widget.startTime,

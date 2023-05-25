@@ -10,8 +10,11 @@ import '../../../constants.dart';
 class CurrentLocationPage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   CurrentLocationPage({
     Key? key,
+    required this.UID,
     required this.Email,
   }) : super(key: key);
 
@@ -64,6 +67,7 @@ class CurrentLocationPageState extends State<CurrentLocationPage> {
                 builder: (BuildContext context) {
                   return ProfilePage(
                     Email: widget.Email,
+                    UID: widget.UID,
                   );
                 },
               ),

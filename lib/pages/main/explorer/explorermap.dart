@@ -14,6 +14,8 @@ import 'explorer.dart';
 class ExplorerMapPage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   String firstLocation;
 
   String secondLocation;
@@ -41,6 +43,7 @@ class ExplorerMapPage extends StatefulWidget {
   ExplorerMapPage({
     Key? key,
     required this.Email,
+    required this.UID,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -124,6 +127,7 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
                 builder: (BuildContext context) {
                   return SelectRoutePage(
                     Email: widget.Email,
+                    UID: widget.UID,
                     firstLocation: widget.firstLocation,
                     secondLocation: widget.secondLocation,
                     startTime: widget.startTime,
@@ -367,14 +371,15 @@ class ExplorerMapPageState extends State<ExplorerMapPage> {
                               builder: (BuildContext context) {
                                 return ExplorerPage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                   firstLocation: 'Search destination',
                                   secondLocation: 'Search destination',
                                   startTime: TimeOfDay.now(),
                                   endTime: TimeOfDay.now(),
                                   selectedIconIndex: -1,
                                   endDestinationChoice: 0,
-                                  topK: 0,
-                                  topN: 0,
+                                  topK: 2,
+                                  topN: 2,
                                   latStart: 0,
                                   latEnd: 0,
                                   longStart: 0,

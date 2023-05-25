@@ -7,8 +7,11 @@ import '../account/newpassword2.dart';
 class SettingsPage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   SettingsPage({
     Key? key,
+    required this.UID,
     required this.Email,
   }) : super(key: key);
 
@@ -41,6 +44,7 @@ class _SettingsPageState extends State<SettingsPage> {
                     builder: (BuildContext context) {
                       return ProfilePage(
                         Email: widget.Email,
+                        UID: widget.UID,
                       );
                     },
                   ),
@@ -259,6 +263,7 @@ class _SettingsPageState extends State<SettingsPage> {
                                   builder: (BuildContext context) {
                                     return NewPassword2(
                                       Email: widget.Email,
+                                      UID: widget.UID,
                                     );
                                   },
                                 ),

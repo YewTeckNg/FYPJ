@@ -14,6 +14,8 @@ List<String> NoOfPOIs = <String>['2', '3', '4', '5'];
 class ExplorerPage extends StatefulWidget {
   String Email;
 
+  String UID;
+
   String firstLocation;
 
   String secondLocation;
@@ -41,6 +43,7 @@ class ExplorerPage extends StatefulWidget {
   ExplorerPage({
     Key? key,
     required this.Email,
+    required this.UID,
     required this.firstLocation,
     required this.secondLocation,
     required this.startTime,
@@ -172,6 +175,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               builder: (BuildContext context) {
                                 return ProfilePage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                 );
                               },
                             ),
@@ -206,6 +210,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               builder: (BuildContext context) {
                                 return ProfilePage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                 );
                               },
                             ),
@@ -263,6 +268,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               builder: (BuildContext context) {
                                 return SearchLocationPage1(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
@@ -374,6 +380,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               builder: (BuildContext context) {
                                 return ChoiceForEndPage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
@@ -639,7 +646,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                         ),
                       ),
                       Padding(
-                        padding: const EdgeInsets.only(top: 15, left: 106),
+                        padding: const EdgeInsets.only(top: 15, left: 96),
                         child: Container(
                           height: 60,
                           width: 118,
@@ -925,7 +932,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                             (_timeOfDay3.hour * 60 + _timeOfDay3.minute) * 60;
                         diffSec = endSec - nowSec;
                         debugPrint(
-                            '{\n "UID" : "Root"\n "TopK" : "${widget.topK}"\n "TopN" : "${widget.topN}"\n "Time" : "$diffSec"\n "VehicleMode" : "${widget.selectedIconIndex}"\n "Mode" : "${widget.endDestinationChoice}"\n "UserEndPoi" : "${widget.secondLocation}"\n "Latitude" : "${widget.latEnd}"\n "Longitude" : "${widget.longEnd}"\n}');
+                            '{\n "UID" : "${widget.UID}"\n "TopK" : "${widget.topK}"\n "TopN" : "${widget.topN}"\n "Time" : "$diffSec"\n "VehicleMode" : "${widget.selectedIconIndex}"\n "Mode" : "${widget.endDestinationChoice}"\n "UserEndPoi" : "${widget.secondLocation}"\n "Latitude" : "${widget.latEnd}"\n "Longitude" : "${widget.longEnd}"\n}');
                         if (widget.firstLocation != 'Search destination' &&
                             widget.secondLocation != 'Search destination' &&
                             endSec > nowSec &&
@@ -945,6 +952,7 @@ class _ExplorerPageState extends State<ExplorerPage> {
                               builder: (BuildContext context) {
                                 return SelectRoutePage(
                                   Email: widget.Email,
+                                  UID: widget.UID,
                                   firstLocation: widget.firstLocation,
                                   secondLocation: widget.secondLocation,
                                   startTime: widget.startTime,
