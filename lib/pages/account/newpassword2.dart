@@ -52,41 +52,45 @@ class _NewPasswordState2 extends State<NewPassword2> {
           Crypt.sha256(PasswordForDB, salt: 'abcdefghijklmnop');
       // Read a row
       final selectResult = await connection.query(
-          "SELECT * FROM public.userprofile where email = '${widget.Email}'");
+          "SELECT password FROM public.userprofile where email = '${widget.Email}'");
       for (final row in selectResult) {
-        final updatequery = await connection.execute(
-            "UPDATE public.userprofile set password = '$HashedPassword'");
-        SchedulerBinding.instance.addPostFrameCallback((_) {
-          Flushbar(
-            icon: const Icon(
-              Icons.message,
-              size: 32,
-              color: Colors.white,
+        if ("[$HashedPassword]" == row.toString()) {
+          showTopSnackBar1(context);
+        } else {
+          final updatequery = await connection.execute(
+              "UPDATE public.userprofile set password = '$HashedPassword'");
+          SchedulerBinding.instance.addPostFrameCallback((_) {
+            Flushbar(
+              icon: const Icon(
+                Icons.message,
+                size: 32,
+                color: Colors.white,
+              ),
+              shouldIconPulse: false,
+              padding: const EdgeInsets.all(24),
+              title: 'Success Message',
+              message: 'Password has been updated successfully',
+              flushbarPosition: FlushbarPosition.TOP,
+              margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
+              borderRadius: const BorderRadius.all(
+                Radius.circular(10),
+              ),
+              duration: const Duration(seconds: 3),
+              barBlur: 20,
+              backgroundColor: Colors.green.shade700.withOpacity(0.9),
+            ).show(context);
+          });
+          Navigator.of(context).pushReplacement(
+            MaterialPageRoute(
+              builder: (BuildContext context) {
+                return ProfilePage(
+                  Email: widget.Email,
+                );
+              },
             ),
-            shouldIconPulse: false,
-            padding: const EdgeInsets.all(24),
-            title: 'Success Message',
-            message: 'Password has been updated successfully',
-            flushbarPosition: FlushbarPosition.TOP,
-            margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
-            borderRadius: const BorderRadius.all(
-              Radius.circular(10),
-            ),
-            duration: const Duration(seconds: 3),
-            barBlur: 20,
-            backgroundColor: Colors.green.shade700.withOpacity(0.9),
-          ).show(context);
-        });
-        Navigator.of(context).pushReplacement(
-          MaterialPageRoute(
-            builder: (BuildContext context) {
-              return ProfilePage(
-                Email: widget.Email,
-              );
-            },
-          ),
-        );
-        debugPrint('row has been updated');
+          );
+          debugPrint('row has been updated');
+        }
       }
     } catch (e) {
       print('Error: $e');
@@ -291,7 +295,7 @@ class _NewPasswordState2 extends State<NewPassword2> {
         padding: const EdgeInsets.all(24),
         title: 'Error message',
         message:
-            'Either Email or Password is incorrect. Please re-enter details.',
+            'New password entered cannot be the same as the current password.',
         flushbarPosition: FlushbarPosition.TOP,
         margin: const EdgeInsets.fromLTRB(5, 5, 5, 5),
         borderRadius: const BorderRadius.all(
