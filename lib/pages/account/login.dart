@@ -301,7 +301,7 @@ class _LoginPageState extends State<LoginPage> {
               ),
 
               const SizedBox(
-                height: 145,
+                height: 155,
               ),
               ElevatedButton(
                 onPressed: () {
