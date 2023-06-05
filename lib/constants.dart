@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-const String google_api_key = "AIzaSyCMx38Wj5gSP0gD4sJqri0CUjFUg9tFeeY";
+const String google_api_key = "";
 
-const String search_apiKey = "AIzaSyCMx38Wj5gSP0gD4sJqri0CUjFUg9tFeeY";
+const String search_apiKey = "";
 
 const Color primaryColor = Color(0xFF006491);
 const Color textColorLightTheme = Color(0xFF0D0D0E);
